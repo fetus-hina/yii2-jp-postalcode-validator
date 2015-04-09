@@ -1,10 +1,10 @@
 <?php
-namespace jp3cki\yii2\validators\test;
+namespace jp3cki\yii2\jppostalcode\test;
 
 use Yii;
 use yii\base\DynamicModel;
-use jp3cki\yii2\validators\JpPostalCodeValidator as Target;
-use jp3cki\yii2\validators\testsrc\TestCase;
+use jp3cki\yii2\jppostalcode\JpPostalCodeValidator as Target;
+use jp3cki\yii2\jppostalcode\test\TestCase;
 
 /**
  * @group postalcode

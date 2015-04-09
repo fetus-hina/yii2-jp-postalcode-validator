@@ -2,11 +2,11 @@
 /**
  * @author AIZAWA Hina <hina@bouhime.com>
  * @copyright 2015 by AIZAWA Hina <hina@bouhime.com>
- * @license https://github.com/fetus-hina/yii2-extra-validator/blob/master/LICENSE MIT
- * @since 1.3.0
+ * @license https://github.com/fetus-hina/yii2-jp-postalcode-validator/blob/master/LICENSE MIT
+ * @since 1.0.0
  */
 
-namespace jp3cki\yii2\validators;
+namespace jp3cki\yii2\jppostalcode;
 
 use Yii;
 use yii\validators\Validator;
@@ -28,7 +28,7 @@ class JpPostalCodeValidator extends Validator
     {
         parent::init();
         if ($this->message === null) {
-            $this->message = Yii::t('jp3ckivalidator', '{attribute} is not a valid postal code.');
+            $this->message = Yii::t('jp3ckiJpPostalCode', '{attribute} is not a valid postal code.');
         }
     }
 
