@@ -4,7 +4,7 @@
     "description": "Postal code validator for Yii Framework2",
     "keywords": ["yii2", "extension", "validator", "postalcode", "zipcode", "japan"],
     "license": "MIT",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "authors": [
         {
             "name": "AIZAWA Hina",
