@@ -47,7 +47,7 @@ function downloadCsv($url, $filename)
     echo "Extracting $filename ...\n";
     $tmppath = tempnam(sys_get_temp_dir(), 'zip-');
     try {
-        file_put_contents($tmppath, $curl->raw_response);
+        file_put_contents($tmppath, $curl->rawResponse);
         $zip = new ZipArchive();
         if ($zip->open($tmppath, 0) !== true) {
             throw new Exception('Could not open zip archive');
