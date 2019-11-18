@@ -17,7 +17,7 @@
     },
     "require-dev": {
         "codeclimate/php-test-reporter": "dev-master",
-        "php-curl-class/php-curl-class": "^4.6",
+        "php-curl-class/php-curl-class": "^8.6.1",
         "phpmd/phpmd": "^2.2",
         "phpoffice/phpexcel": "^1.8",
         "phpunit/phpunit": "*",
