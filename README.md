@@ -88,3 +88,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
+非互換の更新
+------------
+
+  - v1.0 → v2.0
+    - PHPの要求バージョンを引き上げました。コード上の非互換はありません。
