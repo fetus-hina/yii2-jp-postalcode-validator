@@ -1,4 +1,5 @@
 <?php
+
 namespace jp3cki\yii2\jppostalcode\test;
 
 use PHPUnit_Framework_TestCase;
@@ -30,7 +31,8 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 
     protected function mockApplication($language = 'en-US', $config = [], $appClass = '\yii\console\Application')
     {
-        new $appClass(ArrayHelper::merge([
+        new $appClass(ArrayHelper::merge(
+            [
                 'id' => 'testapp',
                 'basePath' => __DIR__ . '/..',
                 'vendorPath' => __DIR__ . '/../../vendor',
@@ -38,12 +40,13 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
                 'bootstrap' => [
                     'jp3cki\yii2\jppostalcode\internal\Bootstrap',
                 ],
-            ], $config)
-        );
+            ],
+            $config
+        ));
     }
 
     protected function destroyApplication()
     {
-        \Yii::$app = null;
+        Yii::$app = null;
     }
 }
