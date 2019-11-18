@@ -12,7 +12,7 @@ use jp3cki\yii2\jppostalcode\test\TestCase;
  */
 class JpPostalCodeValidatorTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->mockApplication();
