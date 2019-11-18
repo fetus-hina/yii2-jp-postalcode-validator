@@ -5,10 +5,6 @@ all: vendor
 test: vendor FORCE
 	vendor/bin/phpunit
 
-.PHONY: clover.xml
-clover.xml: vendor FORCE
-	vendor/bin/phpunit --coverage-clover=clover.xml
-
 .PHONY: check-style
 check-style: vendor FORCE
 	vendor/bin/phpcs --standard=PSR12 src test
@@ -19,7 +15,7 @@ fix-style: FORCE
 
 .PHONY: clean
 clean:
-	rm -rf vendor composer.phar clover.xml
+	rm -rf vendor composer.phar
 
 composer.lock: composer.json composer.phar
 	./composer.phar update -vvv
