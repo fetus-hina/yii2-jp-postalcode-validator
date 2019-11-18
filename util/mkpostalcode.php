@@ -1,4 +1,5 @@
 <?php
+
 require_once(__DIR__ . '/../vendor/autoload.php');
 
 use Curl\Curl;
@@ -6,8 +7,8 @@ use Curl\Curl;
 define('PUT_BASE_DIR', __DIR__ . '/../data/postalcode/jp');
 
 $sources = [
-    'http://www.post.japanpost.jp/zipcode/dl/oogaki/zip/ken_all.zip' => [ 'KEN_ALL.CSV', 2 ],
-    'http://www.post.japanpost.jp/zipcode/dl/jigyosyo/zip/jigyosyo.zip' => [ 'JIGYOSYO.CSV', 7 ],
+    'https://www.post.japanpost.jp/zipcode/dl/oogaki/zip/ken_all.zip' => [ 'KEN_ALL.CSV', 2 ],
+    'https://www.post.japanpost.jp/zipcode/dl/jigyosyo/zip/jigyosyo.zip' => [ 'JIGYOSYO.CSV', 7 ],
 ];
 
 $data = [];
