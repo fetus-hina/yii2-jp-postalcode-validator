@@ -11,7 +11,7 @@
         }
     ],
     "require": {
-        "php":  ">=5.4.0",
+        "php":  ">= 7.1.0",
         "ext-pcre": "*",
         "yiisoft/yii2": "^2.0.0"
     },
@@ -28,5 +28,10 @@
     },
     "extra": {
         "bootstrap": "jp3cki\\yii2\\jppostalcode\\internal\\Bootstrap"
+    },
+    "config": {
+        "platform": {
+            "php": "7.1.33"
+        }
     }
 }

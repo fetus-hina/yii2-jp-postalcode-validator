@@ -11,7 +11,7 @@ yii2-jp-postalcode-validator
 動作環境
 --------
 
-- PHP 5.4 以上
+- PHP 7.1 以上
 - Yii framework 2.0
 
 インストール
