@@ -11,7 +11,6 @@ clover.xml: vendor FORCE
 
 .PHONY: check-style
 check-style: vendor FORCE
-	vendor/bin/phpmd src text codesize,controversial,design,naming,unusedcode
 	vendor/bin/phpcs --standard=PSR12 src test
 
 .PHONY: fix-style
