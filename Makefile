@@ -1,33 +1,36 @@
-all: init
+.PHONY: all
+all: vendor
 
-init: install-composer depends-install
-
-install-composer: composer.phar
-
-depends-install: composer.phar
-	php composer.phar install
-
-depends-update: composer.phar
-	php composer.phar self-update
-	php composer.phar update
-
-test:
+.PHONY: test
+test: vendor FORCE
 	vendor/bin/phpunit
 
-clover.xml:
+.PHONY: clover.xml
+clover.xml: vendor FORCE
 	vendor/bin/phpunit --coverage-clover=clover.xml
 
-check-style: FORCE
+.PHONY: check-style
+check-style: vendor FORCE
 	vendor/bin/phpmd src text codesize,controversial,design,naming,unusedcode
-	vendor/bin/phpcs --standard=PSR2 src test
+	vendor/bin/phpcs --standard=PSR12 src test
 
-fix-style:
-	vendor/bin/phpcbf --standard=PSR2 src test
+.PHONY: fix-style
+fix-style: FORCE
+	vendor/bin/phpcbf --standard=PSR12 src test
 
+.PHONY: clean
 clean:
 	rm -rf vendor composer.phar clover.xml
+
+composer.lock: composer.json composer.phar
+	./composer.phar update -vvv
+	touch $@
+
+vendor: composer.lock composer.phar
+	./composer.phar install -vvv
+	touch $@
 
 composer.phar:
 	curl -sS https://getcomposer.org/installer | php
 
-.PHONY: all init install-composer depends-install depends-update test clean check-style fix-style FORCE
+.PHONY: FORCE
