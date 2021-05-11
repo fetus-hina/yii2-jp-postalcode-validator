@@ -5,8 +5,6 @@ yii2-jp-postalcode-validator
 
 [![License](https://poser.pugx.org/jp3cki/yii2-jp-postalcode-validator/license.svg)](https://packagist.org/packages/jp3cki/yii2-jp-postalcode-validator)
 [![Latest Stable Version](https://poser.pugx.org/jp3cki/yii2-jp-postalcode-validator/v/stable.svg)](https://packagist.org/packages/jp3cki/yii2-jp-postalcode-validator)
-[![Build Status](https://travis-ci.org/fetus-hina/yii2-jp-postalcode-validator.svg?branch=master)](https://travis-ci.org/fetus-hina/yii2-jp-postalcode-validator)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/fetus-hina/yii2-jp-postalcode-validator/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/fetus-hina/yii2-jp-postalcode-validator/?branch=master)
 
 動作環境
 --------
