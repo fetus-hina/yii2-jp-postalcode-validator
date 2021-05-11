@@ -2,16 +2,16 @@
 all: vendor
 
 .PHONY: test
-test: vendor FORCE
+test: vendor
 	vendor/bin/phpunit
 
 .PHONY: check-style
-check-style: vendor FORCE
-	vendor/bin/phpcs --standard=PSR12 src test
+check-style: vendor
+	vendor/bin/phpcs
 
 .PHONY: fix-style
-fix-style: FORCE
-	vendor/bin/phpcbf --standard=PSR12 src test
+fix-style:
+	vendor/bin/phpcbf
 
 .PHONY: clean
 clean:
