@@ -1,8 +1,10 @@
-<?php
+<?php //phpcs:disable PSR1.Files.SideEffects.FoundWithSymbols
 
-require_once(__DIR__ . '/../vendor/autoload.php');
+declare(strict_types=1);
 
 use Curl\Curl;
+
+require_once(__DIR__ . '/../vendor/autoload.php');
 
 define('PUT_BASE_DIR', __DIR__ . '/../data/postalcode/jp');
 
@@ -29,14 +31,14 @@ foreach ($data as $zip1 => $list) {
     printf("save %03d ...\n", $zip1);
     usort(
         $list,
-        function ($lhs, $rhs) {
-            return (int)$lhs - (int)$rhs;
+        function (string $lhs, string $rhs): int {
+            return strnatcmp($lhs, $rhs);
         }
     );
     save(sprintf('%03d', $zip1), $list);
 }
 
-function downloadCsv($url, $filename)
+function downloadCsv(string $url, string $filename): string
 {
     echo "Downloading $url ...\n";
     $curl = new Curl();
@@ -66,7 +68,7 @@ function downloadCsv($url, $filename)
     }
 }
 
-function parseCsv($csv, $pos)
+function parseCsv(string $csv, int $pos): array
 {
     $ret = [];
 
@@ -80,7 +82,10 @@ function parseCsv($csv, $pos)
         $fh = fopen($tmppath, 'rt');
         while (!feof($fh)) {
             $line = fgetcsv($fh);
-            if (@preg_match('/^\d{7}$/', $line[$pos])) {
+            if ($line === null || $line === false) {
+                break;
+            }
+            if (preg_match('/^\d{7}$/', (string)$line[$pos])) {
                 $zip1 = substr($line[$pos], 0, 3);
                 $zip2 = substr($line[$pos], 3, 4);
                 if (!isset($ret[$zip1])) {
@@ -98,7 +103,7 @@ function parseCsv($csv, $pos)
     }
 }
 
-function save($zip1, $zip2list)
+function save(string $zip1, array $zip2list): void
 {
     $filepath = PUT_BASE_DIR . '/' . $zip1 . '.json.gz';
     if (!file_exists(dirname($filepath))) {
