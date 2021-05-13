@@ -1,0 +1,58 @@
+---
+name: 'Automatic Database Updator'
+
+on:
+  schedule:
+    - cron: '38 0 * * *'
+
+jobs:
+  update:
+    name: 'Update database'
+
+    runs-on: 'ubuntu-20.04'
+
+    steps:
+      - name: 'Check out the source'
+        uses: 'actions/checkout@v2'
+        with:
+          fetch-depth: 0
+
+      - name: 'Use PHP 8.0'
+        run: |
+          sudo update-alternatives --set php /usr/bin/php8.0
+          php -v
+
+      - name: 'Run Updator'
+        run: |
+          rm -f data/postalcode/jp/*.json.gz
+          php php util/mkpostalcode.php
+
+      - name: 'Check changed'
+        run: |
+          git add data/postalcode/jp
+          git update-index -q --refresh
+          if [ -z "$(git diff-index --name-only HEAD --)" ]; then
+            echo "Nothing changed"
+            echo "changed=0" >> $GITHUB_ENV
+          else
+            echo "Something changed"
+            echo "changed=1" >> $GITHUB_ENV
+          fi
+
+      - name: 'Create Pull Request'
+        if: '${{ env.changed == "1" }}'
+        uses: 'peter-evans/create-pull-request@v3'
+        with:
+          assignees: 'fetus-hina'
+          author: 'AIZAWA Hina <hina@fetus.jp>'
+          body: 'This is an automated pull-request'
+          branch: 'autoupdate-database'
+          commit-message: 'Update postal code database'
+          committer: 'GitHub <noreply@github.com>'
+          delete-branch: true
+          draft: false
+          labels: 'database'
+          reviewers: 'fetus-hina'
+          signoff: false
+          title: 'Update postal code update'
+
