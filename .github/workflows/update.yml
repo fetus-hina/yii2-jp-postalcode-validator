@@ -25,7 +25,7 @@ jobs:
       - name: 'Run Updator'
         run: |
           rm -f data/postalcode/jp/*.json.gz
-          php php util/mkpostalcode.php
+          php util/mkpostalcode.php
 
       - name: 'Check changed'
         run: |
