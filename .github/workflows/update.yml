@@ -3,7 +3,7 @@ name: 'Automatic Database Updator'
 
 on:
   schedule:
-    - cron: '38 0 * * *'
+    - cron: '41 10 * * *'
 
 jobs:
   update:
