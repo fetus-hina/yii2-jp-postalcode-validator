@@ -17,12 +17,8 @@ fix-style:
 clean:
 	rm -rf vendor composer.phar
 
-composer.lock: composer.json composer.phar
-	./composer.phar update -vvv
-	touch $@
-
 vendor: composer.lock composer.phar
-	./composer.phar install -vvv
+	./composer.phar install
 	touch $@
 
 composer.phar:
