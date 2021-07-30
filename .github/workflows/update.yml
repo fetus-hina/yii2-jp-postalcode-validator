@@ -58,5 +58,5 @@ jobs:
           labels: 'database'
           reviewers: 'fetus-hina'
           signoff: false
-          title: 'Update postal code update'
+          title: 'Update postal code database'
 
