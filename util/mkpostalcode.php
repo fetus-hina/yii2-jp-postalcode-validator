@@ -1,10 +1,10 @@
-<?php //phpcs:disable PSR1.Files.SideEffects.FoundWithSymbols
+<?php //phpcs:disable PSR1.Files.SideEffects.FoundWithSymbols,Squiz.Functions.GlobalFunction.Found
 
 declare(strict_types=1);
 
 use Curl\Curl;
 
-require_once(__DIR__ . '/../vendor/autoload.php');
+require_once __DIR__ . '/../vendor/autoload.php';
 
 define('PUT_BASE_DIR', __DIR__ . '/../data/postalcode/jp');
 
@@ -62,12 +62,13 @@ function downloadCsv(string $url, string $filename): string
         }
         @unlink($tmppath);
         return $csv;
-    } catch (Exception $e) {
+    } catch (Throwable $e) {
         @unlink($tmppath);
         throw $e;
     }
 }
 
+/** @return array<int, string[]> */
 function parseCsv(string $csv, int $pos): array
 {
     $ret = [];
@@ -97,12 +98,13 @@ function parseCsv(string $csv, int $pos): array
         fclose($fh);
         @unlink($tmppath);
         return $ret;
-    } catch (Exception $e) {
+    } catch (Throwable $e) {
         @unlink($tmppath);
         throw $e;
     }
 }
 
+/** @param string[] $zip2list */
 function save(string $zip1, array $zip2list): void
 {
     $filepath = PUT_BASE_DIR . '/' . $zip1 . '.json.gz';

@@ -50,12 +50,17 @@ class JpPostalCodeValidator extends Validator
         return null;
     }
 
-    private function isValid($value)
+    /** @param mixed $value */
+    private function isValid($value): bool
     {
-        return $this->isValidFormat($value) && $this->isValidNumber($value);
+        if (!is_scalar($value)) {
+            return false;
+        }
+
+        return $this->isValidFormat((string)$value) && $this->isValidNumber((string)$value);
     }
 
-    private function isValidFormat($value)
+    private function isValidFormat(string $value): bool
     {
         if (preg_match('/^\d{3}-?\d{4}$/', $value)) {
             if ($this->hyphen === true) {
@@ -69,7 +74,7 @@ class JpPostalCodeValidator extends Validator
         return false;
     }
 
-    private function isValidNumber($value)
+    private function isValidNumber(string $value): bool
     {
         $value = preg_replace('/[^0-9]+/', '', $value);
         $code1 = substr($value, 0, 3);
@@ -78,7 +83,8 @@ class JpPostalCodeValidator extends Validator
         return !!in_array($code2, $list, true);
     }
 
-    private function loadJson($code1)
+    /** @return string[] */
+    private function loadJson(string $code1): array
     {
         $path = __DIR__ . '/../data/postalcode/jp/' . $code1 . '.json.gz';
         if (!file_exists($path)) {

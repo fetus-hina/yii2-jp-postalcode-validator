@@ -3,7 +3,9 @@
 namespace jp3cki\yii2\jppostalcode\test;
 
 use Yii;
-use yii\base\NotSupprtException;
+use jp3cki\yii2\jppostalcode\internal\PostalCodeBootstrap;
+use yii\base\NotSupportedException;
+use yii\console\Application;
 use yii\helpers\ArrayHelper;
 
 abstract class TestCase extends \PHPUnit\Framework\TestCase
@@ -13,11 +15,11 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         $vendorDir = __DIR__ . '/../../vendor';
         $vendorAutoload = $vendorDir . '/autoload.php';
         if (file_exists($vendorAutoload)) {
-            require_once($vendorAutoload);
+            require_once $vendorAutoload;
         } else {
             throw new NotSupportedException("Vendor autoload file '{$vendorAutoload}' is missing.");
         }
-        require_once($vendorDir . '/yiisoft/yii2/Yii.php');
+        require_once $vendorDir . '/yiisoft/yii2/Yii.php';
         Yii::setAlias('@vendor', $vendorDir);
     }
 
@@ -28,8 +30,12 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         gc_collect_cycles();
     }
 
-    protected function mockApplication($language = 'en-US', $config = [], $appClass = '\yii\console\Application')
-    {
+    /** @param array<string, mixed> $config */
+    protected function mockApplication(
+        string $language = 'en-US',
+        array $config = [],
+        string $appClass = Application::class
+    ): void {
         new $appClass(ArrayHelper::merge(
             [
                 'id' => 'testapp',
@@ -37,7 +43,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
                 'vendorPath' => __DIR__ . '/../../vendor',
                 'language' => $language,
                 'bootstrap' => [
-                    'jp3cki\yii2\jppostalcode\internal\Bootstrap',
+                    PostalCodeBootstrap::class,
                 ],
             ],
             $config

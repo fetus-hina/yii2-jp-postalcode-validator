@@ -4,17 +4,16 @@
  * @author AIZAWA Hina <hina@fetus.jp>
  * @copyright 2015 by AIZAWA Hina <hina@fetus.jp>
  * @license https://github.com/fetus-hina/yii2-jp-postalcode-validator/blob/master/LICENSE MIT
- * @since 1.0.0
  */
 
 namespace jp3cki\yii2\jppostalcode\internal;
 
 use Yii;
-use yii\base\Application;
 use yii\base\BootstrapInterface;
 
-class Bootstrap implements BootstrapInterface
+final class PostalCodeBootstrap implements BootstrapInterface
 {
+    /** @inheritdoc */
     public function bootstrap($app)
     {
         Yii::setAlias('@jp3ckiJpPostalCodeMessages', __DIR__ . '/../../messages');

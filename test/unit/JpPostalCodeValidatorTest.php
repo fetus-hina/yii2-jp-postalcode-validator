@@ -2,10 +2,8 @@
 
 namespace jp3cki\yii2\jppostalcode\test;
 
-use Yii;
-use yii\base\DynamicModel;
 use jp3cki\yii2\jppostalcode\JpPostalCodeValidator as Target;
-use jp3cki\yii2\jppostalcode\test\TestCase;
+use yii\base\DynamicModel;
 
 /**
  * @group postalcode
@@ -21,7 +19,7 @@ class JpPostalCodeValidatorTest extends TestCase
     /**
      * @dataProvider dataProvider
      */
-    public function testValidator($expected, $hyphen, $value)
+    public function testValidator(bool $expected, ?bool $hyphen, string $value)
     {
         $o = new Target();
         $o->hyphen = $hyphen;
@@ -32,7 +30,7 @@ class JpPostalCodeValidatorTest extends TestCase
     /**
      * @dataProvider dataProvider
      */
-    public function testWithModel($expected, $hyphen, $value)
+    public function testWithModel(bool $expected, ?bool $hyphen, string $value)
     {
         $model = DynamicModel::validateData(
             ['value' => $value],
@@ -43,7 +41,8 @@ class JpPostalCodeValidatorTest extends TestCase
         $this->assertEquals($expected, !$model->hasErrors());
     }
 
-    public function dataProvider()
+    /** @return array<int, mixed>[] */
+    public function dataProvider(): array
     {
         return [
             // 基本パターン

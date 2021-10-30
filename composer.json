@@ -16,9 +16,11 @@
         "yiisoft/yii2": "^2.0.0"
     },
     "require-dev": {
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.7.1",
         "php-curl-class/php-curl-class": "^9.1.0",
         "phpcompatibility/php-compatibility": "^9.3",
         "phpunit/phpunit": "*",
+        "slevomat/coding-standard": "^7.0",
         "squizlabs/php_codesniffer": "^3.6.1"
     },
     "autoload": {
@@ -28,12 +30,13 @@
         }
     },
     "extra": {
-        "bootstrap": "jp3cki\\yii2\\jppostalcode\\internal\\Bootstrap"
+        "bootstrap": "jp3cki\\yii2\\jppostalcode\\internal\\PostalCodeBootstrap"
     },
     "config": {
         "platform": {
             "php": "7.1.33"
-        }
+        },
+        "sort-packages": true
     },
     "repositories": [
         {
