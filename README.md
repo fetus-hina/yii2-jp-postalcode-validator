@@ -42,7 +42,7 @@ class YourCustomForm extends Model
     public function rules()
     {
         return [
-            [['value'], JpPostalCodeValidator::className(),
+            [['value'], JpPostalCodeValidator::class,
                 'hyphen' => null, // 意味は後述
             ],
         ];

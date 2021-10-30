@@ -35,7 +35,7 @@ class JpPostalCodeValidatorTest extends TestCase
         $model = DynamicModel::validateData(
             ['value' => $value],
             [
-                [['value'], Target::className(), 'hyphen' => $hyphen],
+                [['value'], Target::class, 'hyphen' => $hyphen],
             ]
         );
         $this->assertEquals($expected, !$model->hasErrors());
