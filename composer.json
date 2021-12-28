@@ -33,6 +33,10 @@
         "bootstrap": "jp3cki\\yii2\\jppostalcode\\internal\\PostalCodeBootstrap"
     },
     "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "yiisoft/yii2-composer": true
+        },
         "platform": {
             "php": "7.1.33"
         },
