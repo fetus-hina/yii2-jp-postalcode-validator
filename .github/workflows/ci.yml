@@ -16,7 +16,7 @@ jobs:
       matrix:
         envs:
           - php: '7.1'
-            experimental: false
+            experimental: true
 
           - php: '7.2'
             experimental: false
@@ -75,32 +75,39 @@ jobs:
       matrix:
         envs:
           - php: '7.1'
-            experimental: false
-            platform-spoofing: null
+            experimental: true
+            platform-spoofing: '7.1.33'
+            update-require: '>= 7.1'
 
           - php: '7.2'
             experimental: false
             platform-spoofing: null
+            update-require: null
 
           - php: '7.3'
             experimental: false
             platform-spoofing: null
+            update-require: null
 
           - php: '7.4'
             experimental: false
             platform-spoofing: null
+            update-require: null
 
           - php: '8.0'
             experimental: false
             platform-spoofing: '8.0.0'
+            update-require: null
 
           - php: '8.1'
             experimental: false
             platform-spoofing: '8.0.0'
+            update-require: null
 
           - php: '8.2'
             experimental: true
             platform-spoofing: '8.0.0'
+            update-require: null
 
     runs-on: 'ubuntu-20.04'
     steps:
@@ -110,6 +117,12 @@ jobs:
         uses: 'shivammathur/setup-php@v2'
         with:
           php-version: '${{ matrix.envs.php }}'
+
+      - name: 'Update require.php if necessary'
+        if: '${{ matrix.envs.update-require }}'
+        run: |
+          composer require 'php:${{ matrix.envs.update-require }}'
+          rm -f composer.lock
 
       - name: 'Update config.platform.php if necessary'
         if: '${{ matrix.envs.platform-spoofing }}'

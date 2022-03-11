@@ -11,7 +11,7 @@
         }
     ],
     "require": {
-        "php":  ">= 7.1.0",
+        "php":  ">= 7.2.0",
         "ext-pcre": "*",
         "yiisoft/yii2": "^2.0.0"
     },
@@ -38,7 +38,7 @@
             "yiisoft/yii2-composer": true
         },
         "platform": {
-            "php": "7.1.33"
+            "php": "7.2.34"
         },
         "sort-packages": true
     },
