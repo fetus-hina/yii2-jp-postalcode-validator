@@ -7,9 +7,15 @@
  * @since 1.0.0
  */
 
+declare(strict_types=1);
+
 namespace jp3cki\yii2\jppostalcode;
 
+use LogicException;
+use RuntimeException;
 use Yii;
+use yii\helpers\ArrayHelper;
+use yii\helpers\Json;
 use yii\validators\Validator;
 
 /**
@@ -24,16 +30,25 @@ class JpPostalCodeValidator extends Validator
      */
     public $hyphen = null;
 
-    /** @inheritdoc */
+    /**
+     * @inheritdoc
+     *
+     * @return void
+     */
     public function init()
     {
         parent::init();
+
         if ($this->message === null) {
             $this->message = Yii::t('jp3ckiJpPostalCode', '{attribute} is not a valid postal code.');
         }
     }
 
-    /** @inheritdoc */
+    /**
+     * @inheritdoc
+     *
+     * @return void
+     */
     public function validateAttribute($model, $attribute)
     {
         if (!$this->isValid($model->$attribute)) {
@@ -41,7 +56,11 @@ class JpPostalCodeValidator extends Validator
         }
     }
 
-    /** @inheritdoc */
+    /**
+     * @inheritdoc
+     *
+     * @return array{string, array<string, mixed>}|null
+     */
     protected function validateValue($value)
     {
         if (!$this->isValid($value)) {
@@ -50,7 +69,9 @@ class JpPostalCodeValidator extends Validator
         return null;
     }
 
-    /** @param mixed $value */
+    /**
+     * @param mixed $value
+     */
     private function isValid($value): bool
     {
         if (!is_scalar($value)) {
@@ -77,20 +98,45 @@ class JpPostalCodeValidator extends Validator
     private function isValidNumber(string $value): bool
     {
         $value = preg_replace('/[^0-9]+/', '', $value);
+        if ($value === null) {
+            throw new LogicException();
+        }
+
         $code1 = substr($value, 0, 3);
         $code2 = substr($value, 3, 4);
         $list = $this->loadJson($code1);
-        return !!in_array($code2, $list, true);
+        return in_array($code2, $list, true);
     }
 
-    /** @return string[] */
+    /**
+     * @return string[]
+     */
     private function loadJson(string $code1): array
     {
         $path = __DIR__ . '/../data/postalcode/jp/' . $code1 . '.json.gz';
         if (!file_exists($path)) {
             return [];
         }
-        $ret = @json_decode(file_get_contents('compress.zlib://' . $path));
-        return is_array($ret) ? $ret : [];
+
+        $jsonText = file_get_contents('compress.zlib://' . $path);
+        if ($jsonText === false) {
+            throw new RuntimeException('Failed to load postal-code JSON');
+        }
+
+        $ret = Json::decode($jsonText, true);
+        if (
+            !is_array($ret) ||
+            !ArrayHelper::isIndexed($ret, true)
+        ) {
+            throw new RuntimeException('Failed to load postal-code JSON');
+        }
+
+        foreach ($ret as $entry) {
+            if (!is_string($entry)) {
+                throw new RuntimeException('Failed to load postal-code JSON');
+            }
+        }
+
+        return $ret;
     }
 }

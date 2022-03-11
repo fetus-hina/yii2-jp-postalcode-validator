@@ -6,8 +6,15 @@ test: vendor
 	vendor/bin/phpunit
 
 .PHONY: check-style
-check-style: vendor
+check-style: check-style-phpcs check-style-phpstan
+
+.PHONY: check-style-phpcs
+check-style-phpcs: vendor
 	vendor/bin/phpcs
+
+.PHONY: check-style-phpstan
+check-style-phpstan: vendor
+	vendor/bin/phpstan analyze --memory-limit=1G
 
 .PHONY: fix-style
 fix-style:

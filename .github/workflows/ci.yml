@@ -54,7 +54,7 @@ jobs:
             sort | \
             xargs -n 1 php -l
 
-  phpStyleCheck:
+  phpcs:
     name: 'PHP Coding Style (PSR-12)'
     runs-on: 'ubuntu-20.04'
     steps:
@@ -68,6 +68,21 @@ jobs:
 
       - name: 'Run PHPCS'
         run: 'vendor/bin/phpcs'
+
+  phpStan:
+    name: 'PHP Static Analysis'
+    runs-on: 'ubuntu-20.04'
+    steps:
+      - uses: 'actions/checkout@v2'
+
+      - name: 'Use PHP 8.0'
+        run: 'sudo update-alternatives --set php /usr/bin/php8.0'
+
+      - name: 'Install Composer dependencies'
+        run: 'composer install --prefer-dist'
+
+      - name: 'Run PHPStan'
+        run: 'vendor/bin/phpstan analyze --memory-limit=1G'
 
   phpTest:
     name: 'PHP test (PHP ${{ matrix.envs.php }})'
@@ -121,8 +136,11 @@ jobs:
       - name: 'Update require.php if necessary'
         if: '${{ matrix.envs.update-require }}'
         run: |
-          composer require 'php:${{ matrix.envs.update-require }}'
-          rm -f composer.lock
+          composer require --no-update --no-install 'php:${{ matrix.envs.update-require }}'
+
+      - name: 'Remove phpstan-related packages from dependencies'
+        run: |
+          composer remove --dev --no-update --no-install 'proget-hq/phpstan-yii2' 'phpstan/phpstan'
 
       - name: 'Update config.platform.php if necessary'
         if: '${{ matrix.envs.platform-spoofing }}'
@@ -131,6 +149,7 @@ jobs:
 
       - name: 'Install dependencies'
         run: |
+          rm -f composer.lock
           composer install --prefer-dist
 
       - name: 'Run test on PHP ${{ matrix.envs.php }}'
