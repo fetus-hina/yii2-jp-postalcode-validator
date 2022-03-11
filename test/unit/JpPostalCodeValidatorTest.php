@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace jp3cki\yii2\jppostalcode\test;
 
 use jp3cki\yii2\jppostalcode\JpPostalCodeValidator as Target;
