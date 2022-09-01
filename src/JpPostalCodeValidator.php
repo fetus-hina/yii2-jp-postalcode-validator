@@ -52,7 +52,7 @@ class JpPostalCodeValidator extends Validator
     public function validateAttribute($model, $attribute)
     {
         if (!$this->isValid($model->$attribute)) {
-            $this->addError($model, $attribute, $this->message);
+            $this->addError($model, $attribute, (string)$this->message);
         }
     }
 
@@ -64,7 +64,7 @@ class JpPostalCodeValidator extends Validator
     protected function validateValue($value)
     {
         if (!$this->isValid($value)) {
-            return [$this->message, []];
+            return [(string)$this->message, []];
         }
         return null;
     }
