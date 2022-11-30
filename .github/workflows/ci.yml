@@ -13,9 +13,6 @@ jobs:
       matrix:
         envs:
           -
-            php: '7.1'
-            experimental: true
-          -
             php: '7.2'
             experimental: false
           -
@@ -86,11 +83,6 @@ jobs:
     strategy:
       matrix:
         envs:
-          -
-            php: '7.1'
-            experimental: true
-            platform-spoofing: 7.1.33
-            update-require: '>= 7.1'
           -
             php: '7.2'
             experimental: false
