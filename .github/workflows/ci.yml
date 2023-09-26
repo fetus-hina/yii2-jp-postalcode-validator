@@ -29,11 +29,17 @@ jobs:
             experimental: false
           -
             php: '8.2'
+            experimental: false
+          -
+            php: '8.3'
             experimental: true
-    runs-on: ubuntu-20.04
+          -
+            php: '8.4'
+            experimental: true
+    runs-on: ubuntu-22.04
     steps:
       -
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       -
         name: 'Use PHP ${{ matrix.envs.php }}'
         uses: shivammathur/setup-php@v2
@@ -50,13 +56,15 @@ jobs:
             xargs -n 1 php -l
   phpcs:
     name: 'PHP Coding Style (PSR-12)'
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       -
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       -
-        name: 'Use PHP 8.1'
-        run: 'sudo update-alternatives --set php /usr/bin/php8.1'
+        name: 'Use PHP 8.2'
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
       -
         name: 'Install Composer dependencies'
         run: 'composer install --prefer-dist'
@@ -65,13 +73,15 @@ jobs:
         run: vendor/bin/phpcs
   phpStan:
     name: 'PHP Static Analysis'
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       -
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       -
-        name: 'Use PHP 8.1'
-        run: 'sudo update-alternatives --set php /usr/bin/php8.1'
+        name: 'Use PHP 8.2'
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
       -
         name: 'Install Composer dependencies'
         run: 'composer install --prefer-dist'
@@ -110,13 +120,23 @@ jobs:
             update-require: ~
           -
             php: '8.2'
+            experimental: false
+            platform-spoofing: 8.0.0
+            update-require: ~
+          -
+            php: '8.3'
             experimental: true
             platform-spoofing: 8.0.0
             update-require: ~
-    runs-on: ubuntu-20.04
+          -
+            php: '8.4'
+            experimental: true
+            platform-spoofing: 8.0.0
+            update-require: ~
+    runs-on: ubuntu-22.04
     steps:
       -
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       -
         name: 'Use PHP ${{ matrix.envs.php }}'
         uses: shivammathur/setup-php@v2
