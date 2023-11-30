@@ -13,18 +13,6 @@ jobs:
       matrix:
         envs:
           -
-            php: '7.2'
-            experimental: false
-          -
-            php: '7.3'
-            experimental: false
-          -
-            php: '7.4'
-            experimental: false
-          -
-            php: '8.0'
-            experimental: false
-          -
             php: '8.1'
             experimental: false
           -
@@ -94,45 +82,17 @@ jobs:
       matrix:
         envs:
           -
-            php: '7.2'
-            experimental: false
-            platform-spoofing: ~
-            update-require: ~
-          -
-            php: '7.3'
-            experimental: false
-            platform-spoofing: ~
-            update-require: ~
-          -
-            php: '7.4'
-            experimental: false
-            platform-spoofing: ~
-            update-require: ~
-          -
-            php: '8.0'
-            experimental: false
-            platform-spoofing: 8.0.0
-            update-require: ~
-          -
             php: '8.1'
             experimental: false
-            platform-spoofing: 8.0.0
-            update-require: ~
           -
             php: '8.2'
             experimental: false
-            platform-spoofing: 8.0.0
-            update-require: ~
           -
             php: '8.3'
             experimental: false
-            platform-spoofing: 8.0.0
-            update-require: ~
           -
             php: '8.4'
             experimental: true
-            platform-spoofing: 8.0.0
-            update-require: ~
     runs-on: ubuntu-22.04
     steps:
       -
@@ -143,19 +103,9 @@ jobs:
         with:
           php-version: '${{ matrix.envs.php }}'
       -
-        name: 'Update require.php if necessary'
-        if: '${{ matrix.envs.update-require }}'
-        run: |
-          composer require --no-update --no-install 'php:${{ matrix.envs.update-require }}'
-      -
         name: 'Remove phpstan-related packages from dependencies'
         run: |
           composer remove --dev --no-update --no-install 'proget-hq/phpstan-yii2' 'phpstan/phpstan'
-      -
-        name: 'Update config.platform.php if necessary'
-        if: '${{ matrix.envs.platform-spoofing }}'
-        run: |
-          composer config platform.php ${{ matrix.envs.platform-spoofing }}
       -
         name: 'Install dependencies'
         run: |

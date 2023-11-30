@@ -9,7 +9,7 @@ yii2-jp-postalcode-validator
 動作環境
 --------
 
-- PHP 7.2 以上
+- PHP 8.1 以上
 - Yii framework 2.0
 
 インストール
@@ -65,7 +65,7 @@ class YourCustomForm extends Model
 ```
 The MIT License (MIT)
 
-Copyright (c) 2015-2022 AIZAWA Hina <hina@fetus.jp>
+Copyright (c) 2015-2023 AIZAWA Hina <hina@fetus.jp>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -88,6 +88,9 @@ SOFTWARE.
 
 非互換の更新
 ------------
+
+  - v3.0 → v4.0
+    - PHPの要求バージョンを8.1に引き上げました。コード上の非互換はありません。
 
   - v2.0 → v3.0
     - PHPの要求バージョンを7.2に引き上げました。コード上の非互換はありません。

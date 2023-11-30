@@ -44,7 +44,7 @@ class JpPostalCodeValidatorTest extends TestCase
     }
 
     /** @return array<int, mixed>[] */
-    public function dataProvider(): array
+    public static function dataProvider(): array
     {
         return [
             // 基本パターン
