@@ -6,7 +6,11 @@ test: vendor
 	vendor/bin/phpunit
 
 .PHONY: check-style
-check-style: check-style-phpcs check-style-phpstan
+check-style: check-style-composer check-style-phpcs check-style-phpstan
+
+.PHONY: check-style-composer
+check-style-composer: composer.phar
+	./composer.phar normalize --dry-run
 
 .PHONY: check-style-phpcs
 check-style-phpcs: vendor
