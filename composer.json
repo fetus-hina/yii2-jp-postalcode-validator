@@ -26,11 +26,11 @@
         "dealerdirect/phpcodesniffer-composer-installer": "^1.0.0",
         "ergebnis/composer-normalize": "^2.45",
         "jp3cki/coding-standard": "^1.0.2",
-        "php-curl-class/php-curl-class": "^11.0.4",
+        "php-curl-class/php-curl-class": "^11.1.0",
         "phpcompatibility/php-compatibility": "^9.3.5",
         "phpunit/phpunit": "^10.5.45",
         "proget-hq/phpstan-yii2": "~0.8.0",
-        "squizlabs/php_codesniffer": "^3.11.3"
+        "squizlabs/php_codesniffer": "^3.12.0"
     },
     "repositories": [
         {
