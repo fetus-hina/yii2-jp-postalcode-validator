@@ -12,7 +12,7 @@
   <exclude-pattern>*/runtime/*</exclude-pattern>
   <exclude-pattern>*/vendor/*</exclude-pattern>
 
-  <runtime-set name="testVersion" value="7.1-8.1" />
+  <runtime-set name="testVersion" value="8.1-" />
 
   <rule ref="PSR12" />
   <rule ref="PHPCompatibility" />
@@ -23,7 +23,6 @@
   <rule ref="Generic.Files.ByteOrderMark" />
   <rule ref="Generic.Files.EndFileNewline" />
   <rule ref="Generic.Files.LineEndings" />
-  <rule ref="Generic.Formatting.NoSpaceAfterCast" />
   <rule ref="Generic.NamingConventions.ConstructorName" />
   <rule ref="Generic.NamingConventions.UpperCaseConstantName" />
   <rule ref="Generic.PHP.BacktickOperator" />
@@ -33,6 +32,7 @@
   <rule ref="Generic.PHP.SAPIUsage" />
   <rule ref="Generic.PHP.Syntax" />
   <rule ref="Generic.VersionControl.GitMergeConflict"/>
+  <rule ref="Generic.WhiteSpace.LanguageConstructSpacing"/>
   <rule ref="PEAR.Commenting.InlineComment" />
   <rule ref="PSR2.ControlStructures.ElseIfDeclaration.NotAllowed" />
   <rule ref="SlevomatCodingStandard.Arrays.SingleLineArrayWhitespace"/>
@@ -90,7 +90,6 @@
   <rule ref="Squiz.Scope.StaticThisUsage"/>
   <rule ref="Squiz.Strings.DoubleQuoteUsage.NotRequired"/>
   <rule ref="Squiz.WhiteSpace.FunctionOpeningBraceSpace"/>
-  <rule ref="Squiz.WhiteSpace.LanguageConstructSpacing"/>
   <rule ref="Squiz.WhiteSpace.LogicalOperatorSpacing"/>
   <rule ref="Squiz.WhiteSpace.SemicolonSpacing"/>
   <rule ref="Squiz.WhiteSpace.SuperfluousWhitespace" />
@@ -98,6 +97,12 @@
 
   <rule ref="Generic.CodeAnalysis.EmptyStatement">
     <exclude name="Generic.CodeAnalysis.EmptyStatement.DetectedCatch" />
+  </rule>
+
+  <rule ref="Generic.Formatting.SpaceAfterCast">
+    <properties>
+      <property name="spacing" value="0"/>
+    </properties>
   </rule>
 
   <rule ref="Generic.PHP.ForbiddenFunctions">
