@@ -38,7 +38,7 @@ class JpPostalCodeValidatorTest extends TestCase
             ['value' => $value],
             [
                 [['value'], Target::class, 'hyphen' => $hyphen],
-            ]
+            ],
         );
         $this->assertEquals($expected, !$model->hasErrors());
     }

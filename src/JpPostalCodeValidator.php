@@ -2,7 +2,7 @@
 
 /**
  * @author AIZAWA Hina <hina@fetus.jp>
- * @copyright 2015-2022 by AIZAWA Hina <hina@fetus.jp>
+ * @copyright 2015-2025 by AIZAWA Hina <hina@fetus.jp>
  * @license https://github.com/fetus-hina/yii2-jp-postalcode-validator/blob/master/LICENSE MIT
  * @since 1.0.0
  */
@@ -17,6 +17,17 @@ use Yii;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 use yii\validators\Validator;
+
+use function file_exists;
+use function file_get_contents;
+use function in_array;
+use function is_array;
+use function is_scalar;
+use function is_string;
+use function preg_match;
+use function preg_replace;
+use function strpos;
+use function substr;
 
 /**
  * Validate Postal Code (JAPAN spec)
@@ -69,10 +80,7 @@ class JpPostalCodeValidator extends Validator
         return null;
     }
 
-    /**
-     * @param mixed $value
-     */
-    private function isValid($value): bool
+    private function isValid(mixed $value): bool
     {
         if (!is_scalar($value)) {
             return false;
