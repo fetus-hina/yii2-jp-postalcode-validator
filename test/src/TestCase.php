@@ -10,6 +10,9 @@ use yii\base\NotSupportedException;
 use yii\console\Application;
 use yii\helpers\ArrayHelper;
 
+use function file_exists;
+use function gc_collect_cycles;
+
 abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
     public static function setUpBeforeClass(): void
@@ -36,7 +39,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     protected function mockApplication(
         string $language = 'en-US',
         array $config = [],
-        string $appClass = Application::class
+        string $appClass = Application::class,
     ): void {
         new $appClass(ArrayHelper::merge(
             [
@@ -48,7 +51,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
                     PostalCodeBootstrap::class,
                 ],
             ],
-            $config
+            $config,
         ));
     }
 

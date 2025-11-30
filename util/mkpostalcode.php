@@ -17,7 +17,7 @@ $data = [];
 foreach ($sources as $url => $parseInfo) {
     $tmpData = parseCsv(
         downloadCsv($url, $parseInfo[0]),
-        $parseInfo[1]
+        $parseInfo[1],
     );
     foreach ($tmpData as $zip1 => $list) {
         if (!isset($data[$zip1])) {
@@ -29,12 +29,7 @@ foreach ($sources as $url => $parseInfo) {
 
 foreach ($data as $zip1 => $list) {
     printf("save %03d ...\n", $zip1);
-    usort(
-        $list,
-        function (string $lhs, string $rhs): int {
-            return strnatcmp($lhs, $rhs);
-        }
-    );
+    usort($list, strnatcmp(...));
     save(sprintf('%03d', $zip1), $list);
 }
 
@@ -68,7 +63,9 @@ function downloadCsv(string $url, string $filename): string
     }
 }
 
-/** @return array<int, string[]> */
+/**
+ * @return array<int, string[]>
+ */
 function parseCsv(string $csv, int $pos): array
 {
     $ret = [];
@@ -104,7 +101,9 @@ function parseCsv(string $csv, int $pos): array
     }
 }
 
-/** @param string[] $zip2list */
+/**
+ * @param string[] $zip2list
+ */
 function save(string $zip1, array $zip2list): void
 {
     $filepath = PUT_BASE_DIR . '/' . $zip1 . '.json.gz';
