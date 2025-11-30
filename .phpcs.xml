@@ -12,7 +12,7 @@
   <exclude-pattern>*/runtime/*</exclude-pattern>
   <exclude-pattern>*/vendor/*</exclude-pattern>
 
-  <runtime-set name="testVersion" value="8.1-" />
+  <runtime-set name="testVersion" value="8.2-" />
 
   <rule ref="PSR12" />
   <rule ref="PHPCompatibility" />
