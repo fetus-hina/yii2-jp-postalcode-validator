@@ -6,11 +6,11 @@ name: 'Automatic Database Updator'
 jobs:
   update:
     name: 'Update database'
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       -
         name: 'Check out the source'
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
       -
@@ -46,7 +46,7 @@ jobs:
       -
         name: 'Create Pull Request'
         if: "${{ env.changed == '1' }}"
-        uses: peter-evans/create-pull-request@v3
+        uses: peter-evans/create-pull-request@v8
         with:
           assignees: fetus-hina
           author: 'AIZAWA Hina <hina@fetus.jp>'
