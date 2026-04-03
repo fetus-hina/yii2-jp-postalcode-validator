@@ -11,7 +11,9 @@ declare(strict_types=1);
 namespace jp3cki\yii2\jppostalcode\internal;
 
 use Yii;
+use yii\base\Application;
 use yii\base\BootstrapInterface;
+use yii\i18n\I18N;
 use yii\i18n\PhpMessageSource;
 
 final class PostalCodeBootstrap implements BootstrapInterface
@@ -19,13 +21,14 @@ final class PostalCodeBootstrap implements BootstrapInterface
     /**
      * @inheritdoc
      *
+     * @param Application $app
      * @return void
      */
     public function bootstrap($app)
     {
         Yii::setAlias('@jp3ckiJpPostalCodeMessages', __DIR__ . '/../../messages');
         $i18n = $app->i18n;
-        if (!isset($i18n->translations['jp3ckiJpPostalCode'])) {
+        if ($i18n instanceof I18N && !isset($i18n->translations['jp3ckiJpPostalCode'])) {
             $i18n->translations['jp3ckiJpPostalCode'] = [
                 'class' => PhpMessageSource::class,
                 'sourceLanguage' => 'en-US',

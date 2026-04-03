@@ -145,6 +145,7 @@ class JpPostalCodeValidator extends Validator
             }
         }
 
+        /** @var string[] $ret */
         return $ret;
     }
 }
