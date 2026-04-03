@@ -23,6 +23,9 @@ jobs:
             experimental: false
           -
             php: '8.5'
+            experimental: false
+          -
+            php: '8.6'
             experimental: true
     runs-on: ubuntu-latest
     steps:
@@ -92,6 +95,9 @@ jobs:
             experimental: false
           -
             php: '8.5'
+            experimental: false
+          -
+            php: '8.6'
             experimental: true
     runs-on: ubuntu-latest
     steps:
