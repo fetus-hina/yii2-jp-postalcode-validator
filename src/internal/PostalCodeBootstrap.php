@@ -33,7 +33,7 @@ final class PostalCodeBootstrap implements BootstrapInterface
             $i18n->translations['jp3ckiJpPostalCode'] = [
                 'class' => PhpMessageSource::class,
                 'sourceLanguage' => 'en-US',
-                'basePath' => '@jp3ckiJpPhoneMessages',
+                'basePath' => '@jp3ckiJpPostalCodeMessages',
             ];
         }
     }

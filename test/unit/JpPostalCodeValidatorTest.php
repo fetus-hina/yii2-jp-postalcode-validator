@@ -41,6 +41,18 @@ class JpPostalCodeValidatorTest extends TestCase
         $this->assertSame($expected, !$model->hasErrors());
     }
 
+    public function testJapaneseTranslation(): void
+    {
+        $this->destroyApplication();
+        $this->mockApplication('ja-JP');
+
+        $o = new Target();
+        $o->init();
+        $error = null;
+        $this->assertFalse($o->validate('999-9999', $error));
+        $this->assertSame('入力値 は正しい郵便番号ではありません。', $error);
+    }
+
     /**
      * @return array<int, mixed>[]
      */
