@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace jp3cki\yii2\jppostalcode\test;
 
+use Override;
 use PHPUnit\Framework\TestCase as BaseTestCase;
 use Yii;
 use jp3cki\yii2\jppostalcode\internal\PostalCodeBootstrap;
@@ -16,6 +17,7 @@ use function gc_collect_cycles;
 
 abstract class TestCase extends BaseTestCase
 {
+    #[Override]
     public static function setUpBeforeClass(): void
     {
         $vendorDir = __DIR__ . '/../../vendor';
@@ -29,6 +31,7 @@ abstract class TestCase extends BaseTestCase
         Yii::setAlias('@vendor', $vendorDir);
     }
 
+    #[Override]
     protected function tearDown(): void
     {
         parent::tearDown();

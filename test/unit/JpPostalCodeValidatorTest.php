@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace jp3cki\yii2\jppostalcode\test;
 
+use Override;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use jp3cki\yii2\jppostalcode\JpPostalCodeValidator as Target;
@@ -12,6 +13,7 @@ use yii\base\DynamicModel;
 #[Group('postalcode')]
 class JpPostalCodeValidatorTest extends TestCase
 {
+    #[Override]
     public function setUp(): void
     {
         parent::setUp();

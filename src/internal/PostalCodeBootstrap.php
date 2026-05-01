@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 namespace jp3cki\yii2\jppostalcode\internal;
 
+use Override;
 use Yii;
 use yii\base\Application;
 use yii\base\BootstrapInterface;
@@ -24,6 +25,7 @@ final class PostalCodeBootstrap implements BootstrapInterface
      * @param Application $app
      * @return void
      */
+    #[Override]
     public function bootstrap($app)
     {
         Yii::setAlias('@jp3ckiJpPostalCodeMessages', __DIR__ . '/../../messages');

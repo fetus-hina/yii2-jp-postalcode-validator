@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace jp3cki\yii2\jppostalcode;
 
 use LogicException;
+use Override;
 use RuntimeException;
 use Yii;
 use yii\helpers\ArrayHelper;
@@ -46,6 +47,7 @@ class JpPostalCodeValidator extends Validator
      *
      * @return void
      */
+    #[Override]
     public function init()
     {
         parent::init();
@@ -60,6 +62,7 @@ class JpPostalCodeValidator extends Validator
      *
      * @return void
      */
+    #[Override]
     public function validateAttribute($model, $attribute)
     {
         if (!$this->isValid($model->$attribute)) {
@@ -72,6 +75,7 @@ class JpPostalCodeValidator extends Validator
      *
      * @return array{string, array<string, mixed>}|null
      */
+    #[Override]
     protected function validateValue($value)
     {
         if (!$this->isValid($value)) {
