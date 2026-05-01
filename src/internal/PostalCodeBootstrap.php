@@ -23,10 +23,9 @@ final class PostalCodeBootstrap implements BootstrapInterface
      * @inheritdoc
      *
      * @param Application $app
-     * @return void
      */
     #[Override]
-    public function bootstrap($app)
+    public function bootstrap($app): void
     {
         Yii::setAlias('@jp3ckiJpPostalCodeMessages', __DIR__ . '/../../messages');
         $i18n = $app->i18n;

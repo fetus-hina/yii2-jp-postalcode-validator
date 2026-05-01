@@ -26,7 +26,7 @@ class JpPostalCodeValidatorTest extends TestCase
         $o = new Target();
         $o->hyphen = $hyphen;
         $o->init();
-        $this->assertEquals($expected, $o->validate($value));
+        $this->assertSame($expected, $o->validate($value));
     }
 
     #[DataProvider('dataProvider')]
@@ -38,7 +38,7 @@ class JpPostalCodeValidatorTest extends TestCase
                 [['value'], Target::class, 'hyphen' => $hyphen],
             ],
         );
-        $this->assertEquals($expected, !$model->hasErrors());
+        $this->assertSame($expected, !$model->hasErrors());
     }
 
     /**

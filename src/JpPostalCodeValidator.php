@@ -11,14 +11,13 @@ declare(strict_types=1);
 
 namespace jp3cki\yii2\jppostalcode;
 
-use LogicException;
 use Override;
 use RuntimeException;
 use Yii;
-use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 use yii\validators\Validator;
 
+use function array_is_list;
 use function file_exists;
 use function file_get_contents;
 use function in_array;
@@ -26,9 +25,7 @@ use function is_array;
 use function is_scalar;
 use function is_string;
 use function preg_match;
-use function preg_replace;
-use function strpos;
-use function substr;
+use function str_contains;
 
 /**
  * Validate Postal Code (JAPAN spec)
@@ -38,17 +35,12 @@ class JpPostalCodeValidator extends Validator
     /**
      * ハイフンの許可
      *
-     * @var bool|null null=気にしない, true=要求, false=許可しない
+     * null=気にしない, true=要求, false=許可しない
      */
-    public $hyphen = null;
+    public ?bool $hyphen = null;
 
-    /**
-     * @inheritdoc
-     *
-     * @return void
-     */
     #[Override]
-    public function init()
+    public function init(): void
     {
         parent::init();
 
@@ -57,13 +49,8 @@ class JpPostalCodeValidator extends Validator
         }
     }
 
-    /**
-     * @inheritdoc
-     *
-     * @return void
-     */
     #[Override]
-    public function validateAttribute($model, $attribute)
+    public function validateAttribute($model, $attribute): void
     {
         if (!$this->isValid($model->$attribute)) {
             $this->addError($model, $attribute, (string)$this->message);
@@ -71,12 +58,10 @@ class JpPostalCodeValidator extends Validator
     }
 
     /**
-     * @inheritdoc
-     *
      * @return array{string, array<string, mixed>}|null
      */
     #[Override]
-    protected function validateValue($value)
+    protected function validateValue($value): ?array
     {
         if (!$this->isValid($value)) {
             return [(string)$this->message, []];
@@ -97,10 +82,10 @@ class JpPostalCodeValidator extends Validator
     {
         if (preg_match('/^\d{3}-?\d{4}$/', $value)) {
             if ($this->hyphen === true) {
-                return strpos($value, '-') !== false;
+                return str_contains($value, '-');
             }
             if ($this->hyphen === false) {
-                return strpos($value, '-') === false;
+                return !str_contains($value, '-');
             }
             return true;
         }
@@ -109,15 +94,11 @@ class JpPostalCodeValidator extends Validator
 
     private function isValidNumber(string $value): bool
     {
-        $value = preg_replace('/[^0-9]+/', '', $value);
-        if ($value === null) {
-            throw new LogicException();
+        if (!preg_match('/^(\d{3})-?(\d{4})$/', $value, $m)) {
+            return false;
         }
-
-        $code1 = substr($value, 0, 3);
-        $code2 = substr($value, 3, 4);
-        $list = $this->loadJson($code1);
-        return in_array($code2, $list, true);
+        $list = $this->loadJson($m[1]);
+        return in_array($m[2], $list, true);
     }
 
     /**
@@ -136,10 +117,7 @@ class JpPostalCodeValidator extends Validator
         }
 
         $ret = Json::decode($jsonText, true);
-        if (
-            !is_array($ret) ||
-            !ArrayHelper::isIndexed($ret, true)
-        ) {
+        if (!is_array($ret) || !array_is_list($ret)) {
             throw new RuntimeException('Failed to load postal-code JSON');
         }
 
