@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace jp3cki\yii2\jppostalcode\test;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 use jp3cki\yii2\jppostalcode\JpPostalCodeValidator as Target;
 use yii\base\DynamicModel;
 
-/**
- * @group postalcode
- */
+#[Group('postalcode')]
 class JpPostalCodeValidatorTest extends TestCase
 {
     public function setUp(): void
@@ -18,9 +18,7 @@ class JpPostalCodeValidatorTest extends TestCase
         $this->mockApplication();
     }
 
-    /**
-     * @dataProvider dataProvider
-     */
+    #[DataProvider('dataProvider')]
     public function testValidator(bool $expected, ?bool $hyphen, string $value)
     {
         $o = new Target();
@@ -29,9 +27,7 @@ class JpPostalCodeValidatorTest extends TestCase
         $this->assertEquals($expected, $o->validate($value));
     }
 
-    /**
-     * @dataProvider dataProvider
-     */
+    #[DataProvider('dataProvider')]
     public function testWithModel(bool $expected, ?bool $hyphen, string $value)
     {
         $model = DynamicModel::validateData(
@@ -43,7 +39,9 @@ class JpPostalCodeValidatorTest extends TestCase
         $this->assertEquals($expected, !$model->hasErrors());
     }
 
-    /** @return array<int, mixed>[] */
+    /**
+     * @return array<int, mixed>[]
+     */
     public static function dataProvider(): array
     {
         return [

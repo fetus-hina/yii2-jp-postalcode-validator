@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace jp3cki\yii2\jppostalcode\test;
 
+use PHPUnit\Framework\TestCase as BaseTestCase;
 use Yii;
 use jp3cki\yii2\jppostalcode\internal\PostalCodeBootstrap;
 use yii\base\NotSupportedException;
@@ -13,7 +14,7 @@ use yii\helpers\ArrayHelper;
 use function file_exists;
 use function gc_collect_cycles;
 
-abstract class TestCase extends \PHPUnit\Framework\TestCase
+abstract class TestCase extends BaseTestCase
 {
     public static function setUpBeforeClass(): void
     {
@@ -35,7 +36,9 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         gc_collect_cycles();
     }
 
-    /** @param array<string, mixed> $config */
+    /**
+     * @param array<string, mixed> $config
+     */
     protected function mockApplication(
         string $language = 'en-US',
         array $config = [],
@@ -57,6 +60,9 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 
     protected function destroyApplication()
     {
-        Yii::$app = null;
+        if (Yii::$app !== null) {
+            Yii::$app->getErrorHandler()->unregister();
+            Yii::$app = null;
+        }
     }
 }
