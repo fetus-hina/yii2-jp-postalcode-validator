@@ -54,7 +54,7 @@ class JpPostalCodeValidatorTest extends TestCase
     }
 
     /**
-     * @return array<int, mixed>[]
+     * @return list<array{bool, ?bool, string}>
      */
     public static function dataProvider(): array
     {

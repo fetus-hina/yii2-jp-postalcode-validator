@@ -102,7 +102,7 @@ class JpPostalCodeValidator extends Validator
     }
 
     /**
-     * @return string[]
+     * @return list<string>
      */
     private function loadJson(string $code1): array
     {
@@ -127,7 +127,9 @@ class JpPostalCodeValidator extends Validator
             }
         }
 
-        /** @var string[] $ret */
+        /**
+         * @var list<string> $ret
+         */
         return $ret;
     }
 }
