@@ -19,11 +19,16 @@
     ],
     "require": {
         "php": ">= 8.2.0",
+        "ext-json": "*",
         "ext-pcre": "*",
+        "ext-zlib": "*",
         "symfony/polyfill-php83": "^1.37.0",
         "yiisoft/yii2": "~2.0.54"
     },
     "require-dev": {
+        "ext-curl": "*",
+        "ext-mbstring": "*",
+        "ext-zip": "*",
         "dealerdirect/phpcodesniffer-composer-installer": "^1.2.0",
         "ergebnis/composer-normalize": "^2.51.0",
         "erickskrauch/phpstan-yii2": "dev-master",
