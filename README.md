@@ -86,22 +86,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-非互換の更新
-------------
+変更履歴
+--------
 
-  - v5.0 → v6.0
-    - プロパティおよびメソッドに PHP の型宣言を追加しました。
-      - `JpPostalCodeValidator::$hyphen` プロパティに `bool|null` 型を宣言したため、それ以外の型を代入すると `TypeError` となります。これまでは型宣言が無く、ドキュメントに反する型を代入してもエラーにならず暗黙のうちに「気にしない」扱いになっていました。
-      - `init()`, `validateAttribute()`, `validateValue()` の各メソッドにそれぞれ `void`, `void`, `array|null` の戻り値型を追加しました。`JpPostalCodeValidator` を継承してこれらのメソッドをオーバーライドしている場合は、子クラスのシグネチャを揃える必要があります。
-
-  - v4.0 → v5.0
-    - PHPの要求バージョンを8.2に引き上げました。コード上の非互換はありません。
-
-  - v3.0 → v4.0
-    - PHPの要求バージョンを8.1に引き上げました。コード上の非互換はありません。
-
-  - v2.0 → v3.0
-    - PHPの要求バージョンを7.2に引き上げました。コード上の非互換はありません。
-
-  - v1.0 → v2.0
-    - PHPの要求バージョンを引き上げました。コード上の非互換はありません。
+[CHANGELOG.md](./CHANGELOG.md) を参照してください。
