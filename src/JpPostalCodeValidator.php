@@ -37,7 +37,7 @@ class JpPostalCodeValidator extends Validator
      *
      * null=気にしない, true=要求, false=許可しない
      */
-    public ?bool $hyphen = null;
+    public bool|null $hyphen = null;
 
     #[Override]
     public function init(): void
@@ -61,7 +61,7 @@ class JpPostalCodeValidator extends Validator
      * @return array{string, array<string, mixed>}|null
      */
     #[Override]
-    protected function validateValue($value): ?array
+    protected function validateValue($value): array|null
     {
         if (!$this->isValid($value)) {
             return [(string)$this->message, []];

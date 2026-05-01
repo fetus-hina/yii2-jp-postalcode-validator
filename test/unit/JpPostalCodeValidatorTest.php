@@ -21,7 +21,7 @@ class JpPostalCodeValidatorTest extends TestCase
     }
 
     #[DataProvider('dataProvider')]
-    public function testValidator(bool $expected, ?bool $hyphen, string $value)
+    public function testValidator(bool $expected, bool|null $hyphen, string $value)
     {
         $o = new Target();
         $o->hyphen = $hyphen;
@@ -30,7 +30,7 @@ class JpPostalCodeValidatorTest extends TestCase
     }
 
     #[DataProvider('dataProvider')]
-    public function testWithModel(bool $expected, ?bool $hyphen, string $value)
+    public function testWithModel(bool $expected, bool|null $hyphen, string $value)
     {
         $model = DynamicModel::validateData(
             ['value' => $value],
@@ -54,7 +54,7 @@ class JpPostalCodeValidatorTest extends TestCase
     }
 
     /**
-     * @return list<array{bool, ?bool, string}>
+     * @return list<array{bool, bool|null, string}>
      */
     public static function dataProvider(): array
     {
