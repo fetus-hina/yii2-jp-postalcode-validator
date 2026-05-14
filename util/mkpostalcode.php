@@ -9,8 +9,8 @@ require_once __DIR__ . '/../vendor/autoload.php';
 define('PUT_BASE_DIR', __DIR__ . '/../data/postalcode/jp');
 
 $sources = [
-    'https://www.post.japanpost.jp/zipcode/dl/oogaki/zip/ken_all.zip' => [ 'KEN_ALL.CSV', 2 ],
-    'https://www.post.japanpost.jp/zipcode/dl/jigyosyo/zip/jigyosyo.zip' => [ 'JIGYOSYO.CSV', 7 ],
+    'https://www.post.japanpost.jp/service/search/zipcode/download/kogaki/zip/ken_all.zip' => [ 'KEN_ALL.CSV', 2 ],
+    'https://www.post.japanpost.jp/service/search/zipcode/download/office/zip/jigyosyo.zip' => [ 'JIGYOSYO.CSV', 7 ],
 ];
 
 $data = [];
