@@ -23,13 +23,13 @@
         "ext-pcre": "*",
         "ext-zlib": "*",
         "symfony/polyfill-php83": "^1.37.0",
-        "yiisoft/yii2": "~2.0.54"
+        "yiisoft/yii2": "~2.0.55"
     },
     "require-dev": {
         "ext-curl": "*",
         "ext-mbstring": "*",
         "ext-zip": "*",
-        "dealerdirect/phpcodesniffer-composer-installer": "^1.2.0",
+        "dealerdirect/phpcodesniffer-composer-installer": "^1.2.1",
         "ergebnis/composer-normalize": "^2.51.0",
         "erickskrauch/phpstan-yii2": "dev-master",
         "jp3cki/coding-standard": "^2.0.0",
