@@ -22,7 +22,7 @@
         "ext-json": "*",
         "ext-pcre": "*",
         "ext-zlib": "*",
-        "symfony/polyfill-php83": "^1.37.0",
+        "symfony/polyfill-php83": "^1.38.2",
         "yiisoft/yii2": "~2.0.55"
     },
     "require-dev": {
@@ -30,7 +30,7 @@
         "ext-mbstring": "*",
         "ext-zip": "*",
         "dealerdirect/phpcodesniffer-composer-installer": "^1.2.1",
-        "ergebnis/composer-normalize": "^2.51.0",
+        "ergebnis/composer-normalize": "^2.52.0",
         "erickskrauch/phpstan-yii2": "dev-master",
         "jp3cki/coding-standard": "^2.0.0",
         "php-curl-class/php-curl-class": "^13.0.0",
