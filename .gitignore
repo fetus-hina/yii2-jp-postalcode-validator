@@ -3,6 +3,5 @@
 /doc
 /vendor
 clover.xml
-composer.lock
 composer.phar
 update-coverage.sh

@@ -22,7 +22,7 @@
         "ext-json": "*",
         "ext-pcre": "*",
         "ext-zlib": "*",
-        "symfony/polyfill-php83": "^1.38.2",
+        "symfony/polyfill-php83": "^1.41.0",
         "yiisoft/yii2": "~2.0.55"
     },
     "require-dev": {
@@ -34,7 +34,7 @@
         "erickskrauch/phpstan-yii2": "dev-master",
         "jp3cki/coding-standard": "^2.0.0",
         "php-curl-class/php-curl-class": "^13.0.0",
-        "phpunit/phpunit": "^11.5.55",
+        "phpunit/phpunit": "^11.5.56",
         "squizlabs/php_codesniffer": "^4.0.1"
     },
     "repositories": [
