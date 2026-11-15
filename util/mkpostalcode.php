@@ -79,7 +79,7 @@ function parseCsv(string $csv, int $pos): array
         echo "  parse...\n";
         $fh = fopen($tmppath, 'rt');
         while (!feof($fh)) {
-            $line = fgetcsv($fh);
+            $line = fgetcsv($fh, escape: '');
             if ($line === null || $line === false) {
                 break;
             }
