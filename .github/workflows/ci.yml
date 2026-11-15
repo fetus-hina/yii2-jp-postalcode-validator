@@ -41,7 +41,7 @@ jobs:
         run: |
           find . \( -type d \( -name '.git' -or -name 'vendor' -or -name 'runtime' \) -prune \) -or \( -type f -name '*.php' -print \) | \
             sort | \
-            xargs -n 1 php -l
+            xargs php -l
   phpcs:
     name: 'PHP Coding Style (PSR-12)'
     runs-on: ubuntu-26.04
