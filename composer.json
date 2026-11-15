@@ -33,7 +33,7 @@
         "erickskrauch/phpstan-yii2": "dev-master",
         "jp3cki/coding-standard": "^2.0.0",
         "php-curl-class/php-curl-class": "^13.0.2",
-        "phpunit/phpunit": "^11.5.58",
+        "phpunit/phpunit": "^12.5.44",
         "squizlabs/php_codesniffer": "^4.0.4"
     },
     "repositories": [
