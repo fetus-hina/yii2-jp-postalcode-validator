@@ -34,6 +34,11 @@ use function str_contains;
 class JpPostalCodeValidator extends Validator
 {
     /**
+     * 郵便番号の書式（前半3桁, 後半4桁, ハイフン任意）
+     */
+    private const string FORMAT_REGEX = '/\A(\d{3})-?(\d{4})\z/';
+
+    /**
      * ハイフンの許可
      *
      * null=気にしない, true=要求, false=許可しない
@@ -76,30 +81,23 @@ class JpPostalCodeValidator extends Validator
             return false;
         }
 
-        return $this->isValidFormat((string)$value) && $this->isValidNumber((string)$value);
-    }
-
-    private function isValidFormat(string $value): bool
-    {
-        if (preg_match('/^\d{3}-?\d{4}$/', $value)) {
-            if ($this->hyphen === true) {
-                return str_contains($value, '-');
-            }
-            if ($this->hyphen === false) {
-                return !str_contains($value, '-');
-            }
-            return true;
-        }
-        return false;
-    }
-
-    private function isValidNumber(string $value): bool
-    {
-        if (!preg_match('/^(\d{3})-?(\d{4})$/', $value, $m)) {
+        $value = (string)$value;
+        if (!preg_match(self::FORMAT_REGEX, $value, $m)) {
             return false;
         }
-        $list = $this->loadJson($m[1]);
-        return in_array($m[2], $list, true);
+
+        return $this->isValidHyphenStatus($value) && in_array($m[2], $this->loadJson($m[1]), true);
+    }
+
+    private function isValidHyphenStatus(string $value): bool
+    {
+        if ($this->hyphen === true) {
+            return str_contains($value, '-');
+        }
+        if ($this->hyphen === false) {
+            return !str_contains($value, '-');
+        }
+        return true;
     }
 
     /**

@@ -85,6 +85,13 @@ class JpPostalCodeValidatorTest extends TestCase
             [false, null, '100-00'],
             [false, null, '10000'],
             [false, null, '10000050'],
+
+            // 前後の空白・改行
+            [false, null, "1000005\n"],
+            [false, null, "100-0005\n"],
+            [false, null, "\n1000005"],
+            [false, null, ' 1000005'],
+            [false, null, '1000005 '],
         ];
     }
 }

@@ -83,7 +83,7 @@ function parseCsv(string $csv, int $pos): array
             if ($line === null || $line === false) {
                 break;
             }
-            if (preg_match('/^\d{7}$/', (string)$line[$pos])) {
+            if (preg_match('/\A\d{7}\z/', (string)$line[$pos])) {
                 $zip1 = substr($line[$pos], 0, 3);
                 $zip2 = substr($line[$pos], 3, 4);
                 if (!isset($ret[$zip1])) {
