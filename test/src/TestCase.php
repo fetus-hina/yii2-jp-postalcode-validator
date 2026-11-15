@@ -61,7 +61,7 @@ abstract class TestCase extends BaseTestCase
         ));
     }
 
-    protected function destroyApplication()
+    protected function destroyApplication(): void
     {
         if (Yii::$app !== null) {
             Yii::$app->getErrorHandler()->unregister();

@@ -23,7 +23,7 @@ class JpPostalCodeValidatorTest extends TestCase
     }
 
     #[DataProvider('dataProvider')]
-    public function testValidator(bool $expected, bool|null $hyphen, string $value)
+    public function testValidator(bool $expected, bool|null $hyphen, string $value): void
     {
         $o = new Target();
         $o->hyphen = $hyphen;
@@ -32,7 +32,7 @@ class JpPostalCodeValidatorTest extends TestCase
     }
 
     #[DataProvider('dataProvider')]
-    public function testWithModel(bool $expected, bool|null $hyphen, string $value)
+    public function testWithModel(bool $expected, bool|null $hyphen, string $value): void
     {
         $model = DynamicModel::validateData(
             ['value' => $value],

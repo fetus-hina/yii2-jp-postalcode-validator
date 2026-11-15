@@ -14,6 +14,7 @@ namespace jp3cki\yii2\jppostalcode;
 use Override;
 use RuntimeException;
 use Yii;
+use yii\base\Model;
 use yii\helpers\Json;
 use yii\validators\Validator;
 
@@ -54,6 +55,10 @@ class JpPostalCodeValidator extends Validator
         }
     }
 
+    /**
+     * @param Model $model
+     * @param string $attribute
+     */
     #[Override]
     public function validateAttribute($model, $attribute): void
     {
@@ -66,7 +71,7 @@ class JpPostalCodeValidator extends Validator
      * @return array{string, array<string, mixed>}|null
      */
     #[Override]
-    protected function validateValue($value): array|null
+    protected function validateValue(mixed $value): array|null
     {
         if (!$this->isValid($value)) {
             return [(string)$this->message, []];
