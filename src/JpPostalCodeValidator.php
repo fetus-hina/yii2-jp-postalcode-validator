@@ -123,13 +123,20 @@ class JpPostalCodeValidator extends Validator
         }
 
         $ret = Json::decode($jsonText, true);
-        if (!is_array($ret) || !array_is_list($ret) || !array_all($ret, static fn (mixed $v): bool => is_string($v))) {
+        if (!self::isStringList($ret)) {
             throw new RuntimeException('Failed to load postal-code JSON');
         }
 
-        /**
-         * @var list<string> $ret
-         */
         return $ret;
+    }
+
+    /**
+     * @phpstan-assert-if-true list<string> $value
+     */
+    private static function isStringList(mixed $value): bool
+    {
+        return is_array($value) &&
+            array_is_list($value) &&
+            array_all($value, static fn (mixed $v): bool => is_string($v));
     }
 }
