@@ -2,6 +2,11 @@
 
 バージョン番号は [Semantic Versioning](https://semver.org/lang/ja/) に従います。
 
+## v7.0.0
+
+- PHP の要求バージョンを 8.3 に引き上げました。コード上の非互換はありません。
+- 依存パッケージから `symfony/polyfill-php83` を削除しました。
+
 ## v6.0.0
 
 - `JpPostalCodeValidator::$hyphen` プロパティに `bool|null` 型を宣言しました。これまで型宣言が無く任意の値を代入できましたが、`bool` および `null` 以外を代入すると `TypeError` となります。

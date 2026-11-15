@@ -9,7 +9,7 @@ yii2-jp-postalcode-validator
 動作環境
 --------
 
-- PHP 8.2 以上
+- PHP 8.3 以上
 - Yii framework 2.0
 
 インストール
