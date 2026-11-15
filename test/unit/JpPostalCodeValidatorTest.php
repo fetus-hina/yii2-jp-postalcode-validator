@@ -7,10 +7,12 @@ namespace jp3cki\yii2\jppostalcode\test;
 use Override;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
+use Yii;
 use jp3cki\yii2\jppostalcode\HyphenMode;
 use jp3cki\yii2\jppostalcode\JpPostalCodeValidator as Target;
 use stdClass;
 use yii\base\DynamicModel;
+use yii\i18n\PhpMessageSource;
 
 #[Group('postalcode')]
 class JpPostalCodeValidatorTest extends TestCase
@@ -95,6 +97,80 @@ class JpPostalCodeValidatorTest extends TestCase
         $this->assertTrue($model->hasErrors('value'));
     }
 
+    #[DataProvider('emptyValueProvider')]
+    public function testEmptyValueIsSkippedWithModel(mixed $value): void
+    {
+        $model = DynamicModel::validateData(
+            ['value' => $value],
+            [
+                [['value'], Target::class],
+            ],
+        );
+        $this->assertFalse($model->hasErrors('value'));
+    }
+
+    #[DataProvider('emptyValueProvider')]
+    public function testEmptyValueIsInvalidWithoutSkipOnEmpty(mixed $value): void
+    {
+        $model = DynamicModel::validateData(
+            ['value' => $value],
+            [
+                [['value'], Target::class, 'skipOnEmpty' => false],
+            ],
+        );
+        $this->assertTrue($model->hasErrors('value'));
+    }
+
+    public function testDefaultMessage(): void
+    {
+        $o = new Target();
+        $o->init();
+        $error = null;
+        $this->assertFalse($o->validate('999-9999', $error));
+        $this->assertSame('the input value is not a valid postal code.', $error);
+
+        $model = DynamicModel::validateData(
+            ['zip' => '999-9999'],
+            [
+                [['zip'], Target::class],
+            ],
+        );
+        $this->assertSame('Zip is not a valid postal code.', $model->getFirstError('zip'));
+    }
+
+    public function testCustomMessage(): void
+    {
+        $model = DynamicModel::validateData(
+            ['zip' => '999-9999'],
+            [
+                [['zip'], Target::class, 'message' => 'Custom message for {attribute}.'],
+            ],
+        );
+        $this->assertSame('Custom message for Zip.', $model->getFirstError('zip'));
+    }
+
+    public function testBootstrapKeepsUserDefinedTranslation(): void
+    {
+        $translation = [
+            'class' => PhpMessageSource::class,
+            'sourceLanguage' => 'en-US',
+            'basePath' => '@app/custom-messages',
+        ];
+
+        $this->destroyApplication();
+        $this->mockApplication('en-US', [
+            'components' => [
+                'i18n' => [
+                    'translations' => [
+                        'jp3ckiJpPostalCode' => $translation,
+                    ],
+                ],
+            ],
+        ]);
+
+        $this->assertSame($translation, Yii::$app->getI18n()->translations['jp3ckiJpPostalCode']);
+    }
+
     public function testJapaneseTranslation(): void
     {
         $this->destroyApplication();
@@ -140,6 +216,29 @@ class JpPostalCodeValidatorTest extends TestCase
             [false, null, '10000'],
             [false, null, '10000050'],
 
+            // 先頭が 0 の郵便番号
+            [true, null, '060-0000'],
+            [true, null, '0600000'],
+            [true, null, '001-0000'],
+            [true, true, '060-0000'],
+            [true, false, '0600000'],
+
+            // ハイフンの位置・個数の異常
+            [false, null, '1000-005'],
+            [false, null, '10-00005'],
+            [false, null, '100--0005'],
+            [false, null, '-1000005'],
+            [false, null, '1000005-'],
+
+            // 全角数字・ハイフン以外の記号
+            [false, null, '１００－０００５'],
+            [false, null, '１０００００５'],
+            [false, null, '100－0005'],
+            [false, null, '100ー0005'],
+            [false, null, '100−0005'],
+            [false, null, '100‐0005'],
+            [false, null, '100 0005'],
+
             // 前後の空白・改行
             [false, null, "1000005\n"],
             [false, null, "100-0005\n"],
@@ -161,6 +260,17 @@ class JpPostalCodeValidatorTest extends TestCase
             'false' => [false],
             'array' => [['1000005']],
             'object' => [new stdClass()],
+        ];
+    }
+
+    /**
+     * @return array<string, array{mixed}>
+     */
+    public static function emptyValueProvider(): array
+    {
+        return [
+            'empty string' => [''],
+            'null' => [null],
         ];
     }
 
