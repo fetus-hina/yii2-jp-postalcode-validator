@@ -23,7 +23,6 @@ use function file_exists;
 use function file_get_contents;
 use function in_array;
 use function is_array;
-use function is_scalar;
 use function is_string;
 use function preg_match;
 use function str_contains;
@@ -77,12 +76,7 @@ class JpPostalCodeValidator extends Validator
 
     private function isValid(mixed $value): bool
     {
-        if (!is_scalar($value)) {
-            return false;
-        }
-
-        $value = (string)$value;
-        if (!preg_match(self::FORMAT_REGEX, $value, $m)) {
+        if (!is_string($value) || !preg_match(self::FORMAT_REGEX, $value, $m)) {
             return false;
         }
 

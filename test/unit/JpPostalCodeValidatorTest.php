@@ -8,6 +8,7 @@ use Override;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use jp3cki\yii2\jppostalcode\JpPostalCodeValidator as Target;
+use stdClass;
 use yii\base\DynamicModel;
 
 #[Group('postalcode')]
@@ -39,6 +40,14 @@ class JpPostalCodeValidatorTest extends TestCase
             ],
         );
         $this->assertSame($expected, !$model->hasErrors());
+    }
+
+    #[DataProvider('nonStringProvider')]
+    public function testNonStringValue(mixed $value): void
+    {
+        $o = new Target();
+        $o->init();
+        $this->assertFalse($o->validate($value));
     }
 
     public function testJapaneseTranslation(): void
@@ -92,6 +101,21 @@ class JpPostalCodeValidatorTest extends TestCase
             [false, null, "\n1000005"],
             [false, null, ' 1000005'],
             [false, null, '1000005 '],
+        ];
+    }
+
+    /**
+     * @return array<string, array{mixed}>
+     */
+    public static function nonStringProvider(): array
+    {
+        return [
+            'int' => [1000005],
+            'float' => [1000005.0],
+            'true' => [true],
+            'false' => [false],
+            'array' => [['1000005']],
+            'object' => [new stdClass()],
         ];
     }
 }
