@@ -40,9 +40,9 @@ class JpPostalCodeValidator extends Validator
     /**
      * ハイフンの許可
      *
-     * null=気にしない, true=要求, false=許可しない
+     * @var HyphenMode|bool|null HyphenMode または null=気にしない, true=要求, false=許可しない
      */
-    public bool|null $hyphen = null;
+    public HyphenMode|bool|null $hyphen = null;
 
     #[Override]
     public function init(): void
@@ -85,13 +85,21 @@ class JpPostalCodeValidator extends Validator
 
     private function isValidHyphenStatus(string $value): bool
     {
-        if ($this->hyphen === true) {
-            return str_contains($value, '-');
-        }
-        if ($this->hyphen === false) {
-            return !str_contains($value, '-');
-        }
-        return true;
+        return match ($this->getHyphenMode()) {
+            HyphenMode::Optional => true,
+            HyphenMode::Required => str_contains($value, '-'),
+            HyphenMode::Forbidden => !str_contains($value, '-'),
+        };
+    }
+
+    private function getHyphenMode(): HyphenMode
+    {
+        return match ($this->hyphen) {
+            null => HyphenMode::Optional,
+            true => HyphenMode::Required,
+            false => HyphenMode::Forbidden,
+            default => $this->hyphen,
+        };
     }
 
     /**

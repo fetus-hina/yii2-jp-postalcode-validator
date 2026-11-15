@@ -56,6 +56,22 @@ class YourCustomForm extends Model
   * `true`: ハイフンを必須とします。（正しい位置にハイフンがある必要があります）
   * `false`: ハイフンを許容しません。（数字のみの羅列である必要があります）
 
+`hyphen` には、enum `jp3cki\yii2\jppostalcode\HyphenMode` を使ってより分かりやすく指定することもできます。
+
+  * `HyphenMode::Optional`: `null` と同じです。
+  * `HyphenMode::Required`: `true` と同じです。
+  * `HyphenMode::Forbidden`: `false` と同じです。
+
+```php
+use jp3cki\yii2\jppostalcode\HyphenMode;
+
+// ...
+
+[['value'], JpPostalCodeValidator::class,
+    'hyphen' => HyphenMode::Required, // 'hyphen' => true と同じ
+],
+```
+
 検証対象の値は文字列である必要があります。文字列以外の値（`int`, `float`, `bool`, 配列など）は不正な郵便番号として扱います。
 
 

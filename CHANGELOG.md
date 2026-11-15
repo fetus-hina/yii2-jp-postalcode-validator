@@ -9,6 +9,8 @@
 - 依存パッケージに `symfony/polyfill-php84` を追加しました。
 - 末尾に改行を含む値（`"1000005\n"` など）を正しい郵便番号として受け付けていた問題を修正しました。これらは検証エラーになります。
 - 文字列以外の値（`int`, `float`, `bool` など）を検証した場合、これまでは文字列に変換して検証していましたが、検証エラー（不正な郵便番号）として扱うようになりました。数値型の属性に郵便番号を格納している場合は、文字列に変換してから検証してください。
+- ハイフンの許可状況を表す enum `HyphenMode` を追加しました。`hyphen` に `HyphenMode::Optional`, `HyphenMode::Required`, `HyphenMode::Forbidden` を指定でき、それぞれ `null`, `true`, `false` と同じ意味になります。従来の `bool|null` による指定も引き続き使用できます。
+- `JpPostalCodeValidator::$hyphen` プロパティの型を `bool|null` から `HyphenMode|bool|null` に変更しました。`JpPostalCodeValidator` を継承して `hyphen` を再宣言している場合は、型を `HyphenMode|bool|null` に合わせる必要があります（合わせない場合はクラスの読み込み時にエラーになります）。
 
 ## v6.0.0
 

@@ -7,6 +7,7 @@ namespace jp3cki\yii2\jppostalcode\test;
 use Override;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
+use jp3cki\yii2\jppostalcode\HyphenMode;
 use jp3cki\yii2\jppostalcode\JpPostalCodeValidator as Target;
 use stdClass;
 use yii\base\DynamicModel;
@@ -40,6 +41,38 @@ class JpPostalCodeValidatorTest extends TestCase
             ],
         );
         $this->assertSame($expected, !$model->hasErrors());
+    }
+
+    #[DataProvider('dataProvider')]
+    public function testValidatorWithHyphenMode(bool $expected, bool|null $hyphen, string $value): void
+    {
+        $o = new Target();
+        $o->hyphen = self::toHyphenMode($hyphen);
+        $o->init();
+        $this->assertSame($expected, $o->validate($value));
+    }
+
+    #[DataProvider('dataProvider')]
+    public function testWithModelWithHyphenMode(bool $expected, bool|null $hyphen, string $value): void
+    {
+        $model = DynamicModel::validateData(
+            ['value' => $value],
+            [
+                [['value'], Target::class, 'hyphen' => self::toHyphenMode($hyphen)],
+            ],
+        );
+        $this->assertSame($expected, !$model->hasErrors());
+    }
+
+    public function testHyphenPropertyIsNotNormalized(): void
+    {
+        $o = new Target(['hyphen' => true]);
+        $o->validate('100-0005');
+        $this->assertTrue($o->hyphen);
+
+        $o = new Target(['hyphen' => HyphenMode::Required]);
+        $o->validate('100-0005');
+        $this->assertSame(HyphenMode::Required, $o->hyphen);
     }
 
     #[DataProvider('nonStringProvider')]
@@ -117,5 +150,14 @@ class JpPostalCodeValidatorTest extends TestCase
             'array' => [['1000005']],
             'object' => [new stdClass()],
         ];
+    }
+
+    private static function toHyphenMode(bool|null $hyphen): HyphenMode
+    {
+        return match ($hyphen) {
+            null => HyphenMode::Optional,
+            true => HyphenMode::Required,
+            false => HyphenMode::Forbidden,
+        };
     }
 }
