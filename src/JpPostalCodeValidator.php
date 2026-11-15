@@ -14,15 +14,16 @@ namespace jp3cki\yii2\jppostalcode;
 use Override;
 use RuntimeException;
 use Yii;
+use yii\base\Model;
 use yii\helpers\Json;
 use yii\validators\Validator;
 
+use function array_all;
 use function array_is_list;
 use function file_exists;
 use function file_get_contents;
 use function in_array;
 use function is_array;
-use function is_scalar;
 use function is_string;
 use function preg_match;
 use function str_contains;
@@ -33,11 +34,16 @@ use function str_contains;
 class JpPostalCodeValidator extends Validator
 {
     /**
+     * 郵便番号の書式（前半3桁, 後半4桁, ハイフン任意）
+     */
+    private const string FORMAT_REGEX = '/\A(\d{3})-?(\d{4})\z/';
+
+    /**
      * ハイフンの許可
      *
-     * null=気にしない, true=要求, false=許可しない
+     * @var HyphenMode|bool|null HyphenMode または null=気にしない, true=要求, false=許可しない
      */
-    public bool|null $hyphen = null;
+    public HyphenMode|bool|null $hyphen = null;
 
     #[Override]
     public function init(): void
@@ -49,6 +55,10 @@ class JpPostalCodeValidator extends Validator
         }
     }
 
+    /**
+     * @param Model $model
+     * @param string $attribute
+     */
     #[Override]
     public function validateAttribute($model, $attribute): void
     {
@@ -61,7 +71,7 @@ class JpPostalCodeValidator extends Validator
      * @return array{string, array<string, mixed>}|null
      */
     #[Override]
-    protected function validateValue($value): array|null
+    protected function validateValue(mixed $value): array|null
     {
         if (!$this->isValid($value)) {
             return [(string)$this->message, []];
@@ -71,34 +81,30 @@ class JpPostalCodeValidator extends Validator
 
     private function isValid(mixed $value): bool
     {
-        if (!is_scalar($value)) {
+        if (!is_string($value) || !preg_match(self::FORMAT_REGEX, $value, $m)) {
             return false;
         }
 
-        return $this->isValidFormat((string)$value) && $this->isValidNumber((string)$value);
+        return $this->isValidHyphenStatus($value) && in_array($m[2], $this->loadJson($m[1]), true);
     }
 
-    private function isValidFormat(string $value): bool
+    private function isValidHyphenStatus(string $value): bool
     {
-        if (preg_match('/^\d{3}-?\d{4}$/', $value)) {
-            if ($this->hyphen === true) {
-                return str_contains($value, '-');
-            }
-            if ($this->hyphen === false) {
-                return !str_contains($value, '-');
-            }
-            return true;
-        }
-        return false;
+        return match ($this->getHyphenMode()) {
+            HyphenMode::Optional => true,
+            HyphenMode::Required => str_contains($value, '-'),
+            HyphenMode::Forbidden => !str_contains($value, '-'),
+        };
     }
 
-    private function isValidNumber(string $value): bool
+    private function getHyphenMode(): HyphenMode
     {
-        if (!preg_match('/^(\d{3})-?(\d{4})$/', $value, $m)) {
-            return false;
-        }
-        $list = $this->loadJson($m[1]);
-        return in_array($m[2], $list, true);
+        return match ($this->hyphen) {
+            null => HyphenMode::Optional,
+            true => HyphenMode::Required,
+            false => HyphenMode::Forbidden,
+            default => $this->hyphen,
+        };
     }
 
     /**
@@ -117,19 +123,20 @@ class JpPostalCodeValidator extends Validator
         }
 
         $ret = Json::decode($jsonText, true);
-        if (!is_array($ret) || !array_is_list($ret)) {
+        if (!self::isStringList($ret)) {
             throw new RuntimeException('Failed to load postal-code JSON');
         }
 
-        foreach ($ret as $entry) {
-            if (!is_string($entry)) {
-                throw new RuntimeException('Failed to load postal-code JSON');
-            }
-        }
-
-        /**
-         * @var list<string> $ret
-         */
         return $ret;
+    }
+
+    /**
+     * @phpstan-assert-if-true list<string> $value
+     */
+    private static function isStringList(mixed $value): bool
+    {
+        return is_array($value) &&
+            array_is_list($value) &&
+            array_all($value, static fn (mixed $v): bool => is_string($v));
     }
 }

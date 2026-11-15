@@ -13,9 +13,6 @@ jobs:
       matrix:
         envs:
           -
-            php: '8.2'
-            experimental: false
-          -
             php: '8.3'
             experimental: false
           -
@@ -26,7 +23,7 @@ jobs:
             experimental: false
           -
             php: '8.6'
-            experimental: true
+            experimental: false
     runs-on: ubuntu-latest
     steps:
       -
@@ -85,9 +82,6 @@ jobs:
       matrix:
         envs:
           -
-            php: '8.2'
-            experimental: false
-          -
             php: '8.3'
             experimental: false
           -
@@ -98,7 +92,7 @@ jobs:
             experimental: false
           -
             php: '8.6'
-            experimental: true
+            experimental: false
     runs-on: ubuntu-latest
     steps:
       -
@@ -109,14 +103,8 @@ jobs:
         with:
           php-version: '${{ matrix.envs.php }}'
       -
-        name: 'Remove phpstan-related packages from dependencies'
-        run: |
-          composer remove --dev --no-update --no-install 'erickskrauch/phpstan-yii2' 'phpstan/phpstan'
-      -
-        name: 'Install dependencies'
-        run: |
-          rm -f composer.lock
-          composer install --prefer-dist
+        name: 'Install Composer dependencies'
+        run: 'composer install --prefer-dist'
       -
         name: 'Run test on PHP ${{ matrix.envs.php }}'
         continue-on-error: '${{ matrix.envs.experimental }}'

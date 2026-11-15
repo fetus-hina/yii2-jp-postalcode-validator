@@ -18,11 +18,11 @@
         }
     ],
     "require": {
-        "php": ">= 8.2.0",
+        "php": ">= 8.3.0",
         "ext-json": "*",
         "ext-pcre": "*",
         "ext-zlib": "*",
-        "symfony/polyfill-php83": "^1.41.0",
+        "symfony/polyfill-php84": "^1.43.0",
         "yiisoft/yii2": "~2.0.55"
     },
     "require-dev": {
@@ -30,11 +30,11 @@
         "ext-mbstring": "*",
         "ext-zip": "*",
         "dealerdirect/phpcodesniffer-composer-installer": "^1.2.1",
-        "ergebnis/composer-normalize": "^2.52.0",
-        "erickskrauch/phpstan-yii2": "dev-master",
+        "ergebnis/composer-normalize": "^2.57.0",
         "jp3cki/coding-standard": "^2.0.0",
-        "php-curl-class/php-curl-class": "^13.0.0",
-        "phpunit/phpunit": "^11.5.56",
+        "mspirkov/yii2-phpstan": "^0.17.0",
+        "php-curl-class/php-curl-class": "^13.0.2",
+        "phpunit/phpunit": "^12.5.44",
         "squizlabs/php_codesniffer": "^4.0.4"
     },
     "repositories": [
@@ -56,7 +56,7 @@
             "yiisoft/yii2-composer": true
         },
         "platform": {
-            "php": "8.2.30"
+            "php": "8.3.36"
         },
         "sort-packages": true
     },

@@ -7,7 +7,9 @@ namespace jp3cki\yii2\jppostalcode\test;
 use Override;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
+use jp3cki\yii2\jppostalcode\HyphenMode;
 use jp3cki\yii2\jppostalcode\JpPostalCodeValidator as Target;
+use stdClass;
 use yii\base\DynamicModel;
 
 #[Group('postalcode')]
@@ -21,7 +23,7 @@ class JpPostalCodeValidatorTest extends TestCase
     }
 
     #[DataProvider('dataProvider')]
-    public function testValidator(bool $expected, bool|null $hyphen, string $value)
+    public function testValidator(bool $expected, bool|null $hyphen, string $value): void
     {
         $o = new Target();
         $o->hyphen = $hyphen;
@@ -30,7 +32,7 @@ class JpPostalCodeValidatorTest extends TestCase
     }
 
     #[DataProvider('dataProvider')]
-    public function testWithModel(bool $expected, bool|null $hyphen, string $value)
+    public function testWithModel(bool $expected, bool|null $hyphen, string $value): void
     {
         $model = DynamicModel::validateData(
             ['value' => $value],
@@ -39,6 +41,58 @@ class JpPostalCodeValidatorTest extends TestCase
             ],
         );
         $this->assertSame($expected, !$model->hasErrors());
+    }
+
+    #[DataProvider('dataProvider')]
+    public function testValidatorWithHyphenMode(bool $expected, bool|null $hyphen, string $value): void
+    {
+        $o = new Target();
+        $o->hyphen = self::toHyphenMode($hyphen);
+        $o->init();
+        $this->assertSame($expected, $o->validate($value));
+    }
+
+    #[DataProvider('dataProvider')]
+    public function testWithModelWithHyphenMode(bool $expected, bool|null $hyphen, string $value): void
+    {
+        $model = DynamicModel::validateData(
+            ['value' => $value],
+            [
+                [['value'], Target::class, 'hyphen' => self::toHyphenMode($hyphen)],
+            ],
+        );
+        $this->assertSame($expected, !$model->hasErrors());
+    }
+
+    public function testHyphenPropertyIsNotNormalized(): void
+    {
+        $o = new Target(['hyphen' => true]);
+        $o->validate('100-0005');
+        $this->assertTrue($o->hyphen);
+
+        $o = new Target(['hyphen' => HyphenMode::Required]);
+        $o->validate('100-0005');
+        $this->assertSame(HyphenMode::Required, $o->hyphen);
+    }
+
+    #[DataProvider('nonStringProvider')]
+    public function testNonStringValue(mixed $value): void
+    {
+        $o = new Target();
+        $o->init();
+        $this->assertFalse($o->validate($value));
+    }
+
+    #[DataProvider('nonStringProvider')]
+    public function testNonStringValueWithModel(mixed $value): void
+    {
+        $model = DynamicModel::validateData(
+            ['value' => $value],
+            [
+                [['value'], Target::class],
+            ],
+        );
+        $this->assertTrue($model->hasErrors('value'));
     }
 
     public function testJapaneseTranslation(): void
@@ -85,6 +139,37 @@ class JpPostalCodeValidatorTest extends TestCase
             [false, null, '100-00'],
             [false, null, '10000'],
             [false, null, '10000050'],
+
+            // 前後の空白・改行
+            [false, null, "1000005\n"],
+            [false, null, "100-0005\n"],
+            [false, null, "\n1000005"],
+            [false, null, ' 1000005'],
+            [false, null, '1000005 '],
         ];
+    }
+
+    /**
+     * @return array<string, array{mixed}>
+     */
+    public static function nonStringProvider(): array
+    {
+        return [
+            'int' => [1000005],
+            'float' => [1000005.0],
+            'true' => [true],
+            'false' => [false],
+            'array' => [['1000005']],
+            'object' => [new stdClass()],
+        ];
+    }
+
+    private static function toHyphenMode(bool|null $hyphen): HyphenMode
+    {
+        return match ($hyphen) {
+            null => HyphenMode::Optional,
+            true => HyphenMode::Required,
+            false => HyphenMode::Forbidden,
+        };
     }
 }

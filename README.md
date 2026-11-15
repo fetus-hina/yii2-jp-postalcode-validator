@@ -9,7 +9,7 @@ yii2-jp-postalcode-validator
 動作環境
 --------
 
-- PHP 8.2 以上
+- PHP 8.3 以上
 - Yii framework 2.0
 
 インストール
@@ -33,7 +33,7 @@ Model class example:
 namespace app\models;
 
 use yii\base\Model;
-use jp3cki\yii2\validators\JpPostalCodeValidator;
+use jp3cki\yii2\jppostalcode\JpPostalCodeValidator;
 
 class YourCustomForm extends Model
 {
@@ -55,6 +55,24 @@ class YourCustomForm extends Model
   * `null`: ハイフンの有無を気にしません（ハイフンが記入されている場合は正しい位置にハイフンがある必要があります）。
   * `true`: ハイフンを必須とします。（正しい位置にハイフンがある必要があります）
   * `false`: ハイフンを許容しません。（数字のみの羅列である必要があります）
+
+`hyphen` には、enum `jp3cki\yii2\jppostalcode\HyphenMode` を使ってより分かりやすく指定することもできます。
+
+  * `HyphenMode::Optional`: `null` と同じです。
+  * `HyphenMode::Required`: `true` と同じです。
+  * `HyphenMode::Forbidden`: `false` と同じです。
+
+```php
+use jp3cki\yii2\jppostalcode\HyphenMode;
+
+// ...
+
+[['value'], JpPostalCodeValidator::class,
+    'hyphen' => HyphenMode::Required, // 'hyphen' => true と同じ
+],
+```
+
+検証対象の値は文字列である必要があります。文字列以外の値（`int`, `float`, `bool`, 配列など）は不正な郵便番号として扱います。
 
 
 ライセンス
