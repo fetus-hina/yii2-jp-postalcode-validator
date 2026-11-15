@@ -17,6 +17,7 @@ use Yii;
 use yii\helpers\Json;
 use yii\validators\Validator;
 
+use function array_all;
 use function array_is_list;
 use function file_exists;
 use function file_get_contents;
@@ -117,14 +118,8 @@ class JpPostalCodeValidator extends Validator
         }
 
         $ret = Json::decode($jsonText, true);
-        if (!is_array($ret) || !array_is_list($ret)) {
+        if (!is_array($ret) || !array_is_list($ret) || !array_all($ret, static fn (mixed $v): bool => is_string($v))) {
             throw new RuntimeException('Failed to load postal-code JSON');
-        }
-
-        foreach ($ret as $entry) {
-            if (!is_string($entry)) {
-                throw new RuntimeException('Failed to load postal-code JSON');
-            }
         }
 
         /**
