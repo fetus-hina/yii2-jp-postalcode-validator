@@ -33,7 +33,7 @@ Model class example:
 namespace app\models;
 
 use yii\base\Model;
-use jp3cki\yii2\validators\JpPostalCodeValidator;
+use jp3cki\yii2\jppostalcode\JpPostalCodeValidator;
 
 class YourCustomForm extends Model
 {
