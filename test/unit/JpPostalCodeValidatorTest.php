@@ -83,6 +83,18 @@ class JpPostalCodeValidatorTest extends TestCase
         $this->assertFalse($o->validate($value));
     }
 
+    #[DataProvider('nonStringProvider')]
+    public function testNonStringValueWithModel(mixed $value): void
+    {
+        $model = DynamicModel::validateData(
+            ['value' => $value],
+            [
+                [['value'], Target::class],
+            ],
+        );
+        $this->assertTrue($model->hasErrors('value'));
+    }
+
     public function testJapaneseTranslation(): void
     {
         $this->destroyApplication();
